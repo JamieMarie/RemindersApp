@@ -22,7 +22,6 @@ class Register: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         _passwordWarning.isHidden = true
-        ref = Database.database().reference()
         
     }
     
@@ -36,11 +35,6 @@ class Register: UIViewController {
                         }
                         else {
                             print("User signed in!")
-                            
-                            self.ref.child("data/users").updateChildValues(["\(Auth.auth()!.currentUser!.uid)":["Username":self.username.text!]])
-                            
-                            self.performSegue(withIdentifier: "home", sender: self)
-                            //At this point, the user will be taken to the next screen
                         }
                     } }
                 else{
