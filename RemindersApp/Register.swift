@@ -12,7 +12,6 @@ import Firebase
 
 class Register: UIViewController {
     
-    @IBOutlet var _username: UITextField!
     @IBOutlet var _email: UITextField!
     @IBOutlet var _password: UITextField!
     @IBOutlet var _passwordVerify: UITextField!
@@ -26,25 +25,32 @@ class Register: UIViewController {
     }
     
     @IBAction func RegisterUser(_ sender: Any) {
-        if _username.text != "" {
-            if _email.text != "" {
-                if _password.text != ""  && _passwordVerify.text == _password.text {
-                    Auth.auth().createUser(withEmail: _email.text!, password: _password.text!) {(user, error) in
+        var registerSuccess: Bool = false
+        if _email.text != "" {
+            // TODO: CHECK EMAIL DOES NOT ALREADY EXIST
+            
+            if _password.text != ""  && _passwordVerify.text == _password.text {
+                
+                Auth.auth().createUser(withEmail: _email.text!, password: _password.text!) {(user, error) in
                         if let error = error {
                             print(error.localizedDescription)
                         }
                         else {
-                            print("User signed in!")
+                            print("User signed up!")
+                            registerSuccess = true
                         }
-                    } }
-                else{
-                    print("You left email/password empty")
-                }
+                    }
+                
             } else if _password.text != _passwordVerify.text {
                 // Look into implementing this for when content does not pass criteria: https://stackoverflow.com/questions/28883050/swift-prepareforsegue-cancel
                 _passwordWarning.isHidden = false
             }
+            else{
+                print("Please enter a password")
+            }
         }
-        
+        if registerSuccess == true {
+            performSegue(withIdentifier: "FinishRegistration", sender: nil)
+        }
     }
 }
