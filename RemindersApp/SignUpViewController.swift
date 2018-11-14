@@ -10,7 +10,8 @@ import UIKit
 import Firebase
 //import FirebaseDatabase
 
-class Register: UIViewController {
+class SignUpViewController: UIViewController {
+    
     
     @IBOutlet var _email: UITextField!
     @IBOutlet var _password: UITextField!
@@ -50,7 +51,19 @@ class Register: UIViewController {
             }
         }
         if registerSuccess == true {
-            performSegue(withIdentifier: "FinishRegistration", sender: nil)
+            self.performSegue(withIdentifier: "finishRegistrationSegue", sender: self)
+        }
+    }
+    
+    @IBAction func cancelButton(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "finishRegistrationSegue" {
+            if let destVC = segue.destination.childViewControllers[0] as? MainScreenViewController {
+                // open the main screen
+            }
         }
     }
 }

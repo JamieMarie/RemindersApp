@@ -8,7 +8,7 @@
 import UIKit
 import Firebase
 
-class ViewController: UIViewController {
+class SignInViewController: UIViewController {
 
     @IBOutlet var _username: UITextField!
     @IBOutlet var _password: UITextField!
@@ -40,7 +40,20 @@ class ViewController: UIViewController {
     }
     
     @IBAction func RegisterButton(_ sender: Any) {
-        performSegue(withIdentifier: "Register", sender: nil)
+        self.performSegue(withIdentifier: "registerNewUserSegue", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "loginSegue" {
+            if let destVC = segue.destination.childViewControllers[0] as? MainScreenViewController {
+                // open the main screen
+            }
+        }
+        if segue.identifier == "registerNewUserSegue" {
+            if let destVC = segue.destination as? SignUpViewController {
+                // open the main screen
+            }
+        }
     }
     
 

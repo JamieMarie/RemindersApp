@@ -10,14 +10,14 @@
 		19FE0EAA404DF1E5C270C772 /* Pods_RemindersAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C100AAD3AEE638FB4962B7F9 /* Pods_RemindersAppUITests.framework */; };
 		377C8189664B9899E2F1DA79 /* Pods_RemindersAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7105FAF05DDC43BEA1AA7CB5 /* Pods_RemindersAppTests.framework */; };
 		751DE0E42180B3830051817D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751DE0E32180B3830051817D /* AppDelegate.swift */; };
-		751DE0E62180B3830051817D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751DE0E52180B3830051817D /* ViewController.swift */; };
+		751DE0E62180B3830051817D /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751DE0E52180B3830051817D /* SignInViewController.swift */; };
 		751DE0E92180B3830051817D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 751DE0E72180B3830051817D /* Main.storyboard */; };
 		751DE0EB2180B3850051817D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 751DE0EA2180B3850051817D /* Assets.xcassets */; };
 		751DE0EE2180B3850051817D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 751DE0EC2180B3850051817D /* LaunchScreen.storyboard */; };
 		751DE0F92180B3850051817D /* RemindersAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751DE0F82180B3850051817D /* RemindersAppTests.swift */; };
 		751DE1042180B3850051817D /* RemindersAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751DE1032180B3850051817D /* RemindersAppUITests.swift */; };
-		84FCF8D72193E08300D4DEFD /* TaskScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FCF8D62193E08300D4DEFD /* TaskScreenViewController.swift */; };
-		84FCF8D92193E23600D4DEFD /* Register.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FCF8D82193E23600D4DEFD /* Register.swift */; };
+		84FCF8D72193E08300D4DEFD /* MainScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FCF8D62193E08300D4DEFD /* MainScreenViewController.swift */; };
+		84FCF8D92193E23600D4DEFD /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FCF8D82193E23600D4DEFD /* SignUpViewController.swift */; };
 		84FCF8DE2193F0C600D4DEFD /* Background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84FCF8DB2193F0C500D4DEFD /* Background.jpg */; };
 		84FCF8DF2193F0C600D4DEFD /* LoginBackground.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84FCF8DC2193F0C600D4DEFD /* LoginBackground.jpg */; };
 		84FCF8E02193F0C600D4DEFD /* RegularBackground.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84FCF8DD2193F0C600D4DEFD /* RegularBackground.jpg */; };
@@ -52,7 +52,7 @@
 		7105FAF05DDC43BEA1AA7CB5 /* Pods_RemindersAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RemindersAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		751DE0E02180B3830051817D /* RemindersApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RemindersApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		751DE0E32180B3830051817D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		751DE0E52180B3830051817D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		751DE0E52180B3830051817D /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		751DE0E82180B3830051817D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		751DE0EA2180B3850051817D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		751DE0ED2180B3850051817D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -63,8 +63,8 @@
 		751DE0FF2180B3850051817D /* RemindersAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RemindersAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		751DE1032180B3850051817D /* RemindersAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersAppUITests.swift; sourceTree = "<group>"; };
 		751DE1052180B3850051817D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		84FCF8D62193E08300D4DEFD /* TaskScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskScreenViewController.swift; sourceTree = "<group>"; };
-		84FCF8D82193E23600D4DEFD /* Register.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Register.swift; sourceTree = "<group>"; };
+		84FCF8D62193E08300D4DEFD /* MainScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenViewController.swift; sourceTree = "<group>"; };
+		84FCF8D82193E23600D4DEFD /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		84FCF8DB2193F0C500D4DEFD /* Background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Background.jpg; sourceTree = "<group>"; };
 		84FCF8DC2193F0C600D4DEFD /* LoginBackground.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = LoginBackground.jpg; sourceTree = "<group>"; };
 		84FCF8DD2193F0C600D4DEFD /* RegularBackground.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = RegularBackground.jpg; sourceTree = "<group>"; };
@@ -153,10 +153,10 @@
 			isa = PBXGroup;
 			children = (
 				751DE0E32180B3830051817D /* AppDelegate.swift */,
-				751DE0E52180B3830051817D /* ViewController.swift */,
-				84FCF8D62193E08300D4DEFD /* TaskScreenViewController.swift */,
+				751DE0E52180B3830051817D /* SignInViewController.swift */,
+				84FCF8D62193E08300D4DEFD /* MainScreenViewController.swift */,
 				84FF7D282190EE6C00AFCD0D /* User.swift */,
-				84FCF8D82193E23600D4DEFD /* Register.swift */,
+				84FCF8D82193E23600D4DEFD /* SignUpViewController.swift */,
 				751DE0E72180B3830051817D /* Main.storyboard */,
 				751DE0EC2180B3850051817D /* LaunchScreen.storyboard */,
 				751DE0EA2180B3850051817D /* Assets.xcassets */,
@@ -334,15 +334,11 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
 				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-RemindersApp-checkManifestLockResult.txt",
 			);
@@ -356,8 +352,6 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-RemindersApp/Pods-RemindersApp-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
@@ -366,8 +360,6 @@
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
@@ -384,15 +376,11 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
 				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-RemindersAppTests-checkManifestLockResult.txt",
 			);
@@ -406,15 +394,11 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
 				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-RemindersAppUITests-checkManifestLockResult.txt",
 			);
@@ -430,11 +414,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				751DE0E62180B3830051817D /* ViewController.swift in Sources */,
+				751DE0E62180B3830051817D /* SignInViewController.swift in Sources */,
 				751DE0E42180B3830051817D /* AppDelegate.swift in Sources */,
 				84FF7D292190EE6C00AFCD0D /* User.swift in Sources */,
-				84FCF8D72193E08300D4DEFD /* TaskScreenViewController.swift in Sources */,
-				84FCF8D92193E23600D4DEFD /* Register.swift in Sources */,
+				84FCF8D72193E08300D4DEFD /* MainScreenViewController.swift in Sources */,
+				84FCF8D92193E23600D4DEFD /* SignUpViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

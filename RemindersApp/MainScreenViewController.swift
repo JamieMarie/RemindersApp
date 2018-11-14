@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 var ref: Database!
 
-class TaskScreenViewController: UIViewController {
+class MainScreenViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
