@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		19FE0EAA404DF1E5C270C772 /* Pods_RemindersAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C100AAD3AEE638FB4962B7F9 /* Pods_RemindersAppUITests.framework */; };
 		377C8189664B9899E2F1DA79 /* Pods_RemindersAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7105FAF05DDC43BEA1AA7CB5 /* Pods_RemindersAppTests.framework */; };
+		750D7012219CD752002A3F9F /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750D7011219CD752002A3F9F /* Task.swift */; };
+		750D7014219CE4C3002A3F9F /* TaskList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750D7013219CE4C3002A3F9F /* TaskList.swift */; };
 		751DE0E42180B3830051817D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751DE0E32180B3830051817D /* AppDelegate.swift */; };
 		751DE0E62180B3830051817D /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751DE0E52180B3830051817D /* SignInViewController.swift */; };
 		751DE0E92180B3830051817D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 751DE0E72180B3830051817D /* Main.storyboard */; };
@@ -50,6 +52,8 @@
 		44F4D1EC672FF07CC3EE5E4A /* Pods_RemindersApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RemindersApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		70CD15F45475F5935211FCD7 /* Pods-RemindersAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RemindersAppUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RemindersAppUITests/Pods-RemindersAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		7105FAF05DDC43BEA1AA7CB5 /* Pods_RemindersAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RemindersAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		750D7011219CD752002A3F9F /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
+		750D7013219CE4C3002A3F9F /* TaskList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskList.swift; sourceTree = "<group>"; };
 		751DE0E02180B3830051817D /* RemindersApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RemindersApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		751DE0E32180B3830051817D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		751DE0E52180B3830051817D /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
@@ -156,6 +160,8 @@
 				751DE0E52180B3830051817D /* SignInViewController.swift */,
 				84FCF8D62193E08300D4DEFD /* MainScreenViewController.swift */,
 				84FF7D282190EE6C00AFCD0D /* User.swift */,
+				750D7011219CD752002A3F9F /* Task.swift */,
+				750D7013219CE4C3002A3F9F /* TaskList.swift */,
 				84FCF8D82193E23600D4DEFD /* SignUpViewController.swift */,
 				751DE0E72180B3830051817D /* Main.storyboard */,
 				751DE0EC2180B3850051817D /* LaunchScreen.storyboard */,
@@ -354,15 +360,29 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-RemindersApp/Pods-RemindersApp-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/BoringSSL/openssl.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC/GRPCClient.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-C++/grpcpp.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-ProtoRPC/ProtoRPC.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-RxLibrary/RxLibrary.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRPCClient.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpcpp.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ProtoRPC.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxLibrary.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
@@ -414,10 +434,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				750D7014219CE4C3002A3F9F /* TaskList.swift in Sources */,
 				751DE0E62180B3830051817D /* SignInViewController.swift in Sources */,
 				751DE0E42180B3830051817D /* AppDelegate.swift in Sources */,
 				84FF7D292190EE6C00AFCD0D /* User.swift in Sources */,
 				84FCF8D72193E08300D4DEFD /* MainScreenViewController.swift in Sources */,
+				750D7012219CD752002A3F9F /* Task.swift in Sources */,
 				84FCF8D92193E23600D4DEFD /* SignUpViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

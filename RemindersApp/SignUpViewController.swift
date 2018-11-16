@@ -9,19 +9,45 @@
 import UIKit
 import Firebase
 //import FirebaseDatabase
+// for firestore referencing: https://code.tutsplus.com/tutorials/getting-started-with-cloud-firestore-for-ios--cms-30910
+import FirebaseFirestore
 
 class SignUpViewController: UIViewController {
-    
-    
     @IBOutlet var _email: UITextField!
     @IBOutlet var _password: UITextField!
     @IBOutlet var _passwordVerify: UITextField!
     @IBOutlet var _passwordWarning: UILabel!
-    var ref: Database!
+    //var ref: Database!
+    let db = Firestore.firestore()
+    var ref: DocumentReference? = nil
+    var users: [User] = []
+    // not positive what this does
+    var listener : ListenerRegistration!
+    var documents: [DocumentSnapshot] = []
+    var error = Error
+    
+    fileprivate func baseQuery() -> Query {
+        return Firestore.firestore().collection("Users").limit(to: 50)
+    }
+    
+    fileprivate var query : Query? {
+        didSet {
+            if let listener = listener {
+                listener.remove()
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         _passwordWarning.isHidden = true
+        self.query = baseQuery()
+        listener = query?.addSnapshotListener {(documents, error) in
+            guard let snapchat = documents else {
+                print("Error fetching data")
+                return
+            }
+        }
         
     }
     

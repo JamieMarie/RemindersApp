@@ -7,6 +7,7 @@ target 'RemindersApp' do
   pod 'Firebase'
   pod 'Firebase/Core'
   pod 'Firebase/Database'
+  pod 'Firebase/Firestore'
   pod 'Firebase/Auth'
 
   # Pods for RemindersApp

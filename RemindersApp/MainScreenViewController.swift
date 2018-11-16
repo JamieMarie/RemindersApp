@@ -8,9 +8,19 @@
 
 import UIKit
 import Firebase
+// may need to clear cache to install: rm -rf ~/Library/Caches/CocoaPods
+// then run pod install
+import FirebaseFirestore
+//import FirebaseFirestore
+
 var ref: Database!
+//FirebaseApp.configure()
+
 
 class MainScreenViewController: UIViewController {
+    
+    // initalize our database
+    let db = Firestore.firestore()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +33,6 @@ class MainScreenViewController: UIViewController {
             print("Not signed in")
         }
     }
-
+    
 
 }
