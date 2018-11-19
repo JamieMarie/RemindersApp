@@ -2,7 +2,7 @@
 //  Register.swift
 //  RemindersApp
 //
-//  Created by Jamie Penzien on 11/7/18.
+//  Created by Jamie Penzien and Kaylin Zaroukian on 11/7/18.
 //  Copyright © 2018 CIS 347. All rights reserved.
 //
 
@@ -19,35 +19,36 @@ class SignUpViewController: UIViewController {
     @IBOutlet var _passwordWarning: UILabel!
     //var ref: Database!
     let db = Firestore.firestore()
-    var ref: DocumentReference? = nil
+//    var ref: DocumentReference? = nil
+    var ref: DocumentReference!
+
     var users: [User] = []
     // not positive what this does
     var listener : ListenerRegistration!
     var documents: [DocumentSnapshot] = []
-    var error = Error
     
-    fileprivate func baseQuery() -> Query {
-        return Firestore.firestore().collection("Users").limit(to: 50)
-    }
+//    fileprivate func baseQuery() -> Query {
+//        return Firestore.firestore().collection("Users").limit(to: 50)
+//    }
     
-    fileprivate var query : Query? {
-        didSet {
-            if let listener = listener {
-                listener.remove()
-            }
-        }
-    }
+//    fileprivate var query : Query? {
+//        didSet {
+//            if let listener = listener {
+//                listener.remove()
+//            }
+//        }
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         _passwordWarning.isHidden = true
-        self.query = baseQuery()
-        listener = query?.addSnapshotListener {(documents, error) in
-            guard let snapchat = documents else {
-                print("Error fetching data")
-                return
-            }
-        }
+       // self.query = baseQuery()
+//        listener = query?.addSnapshotListener {(documents, error) in
+//            guard let snapchat = documents else {
+//                print("Error fetching data")
+//                return
+//            }
+//        }
         
     }
     
@@ -64,6 +65,39 @@ class SignUpViewController: UIViewController {
                         }
                         else {
                             print("User signed up!")
+                            guard let emailData = self._email.text, !emailData.isEmpty else { return }
+                            
+                            let userData : [String: Any] = [
+                                "email" : emailData,
+                                "firstName" : "",
+                                "id" : "",
+                                "lastName" : "",
+                                "taskList" : []
+                            ]
+                            self.ref = self.db.document("Users/\(emailData)")
+                            //ref = db.collection("Users").document("email1").setData(userData)
+                            
+                            
+//                            self.ref = self.db.collection("Users").addDocument(data: userData) { (error) in
+//                                if let error = error {
+//                                    print("Error: \(error.localizedDescription)")
+//                                    } else {
+//                                        print("Data was saved")
+//                                    }
+//
+//                            }
+                            
+                            self.ref.setData(userData) { (error) in
+                                if let error = error {
+                                    print("Error: \(error.localizedDescription)")
+                                } else {
+                                    print("\n")
+                                    print("Data was saved")
+                                    print("\n")
+
+                                }
+
+                            }
                             registerSuccess = true
                         }
                     }
@@ -77,6 +111,7 @@ class SignUpViewController: UIViewController {
             }
         }
         if registerSuccess == true {
+
             self.performSegue(withIdentifier: "finishRegistrationSegue", sender: self)
         }
     }

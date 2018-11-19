@@ -8,14 +8,7 @@
 
 import Foundation
 
-public var userData : [String: Any] = [
-    "email" : "",
-    "firstName" : "",
-    "id" : "",
-    "lastName" : "",
-    "taskList" : []
-]
-
+// use this to hold data returned from firestore
 struct User {
     var email: String
     var firstName: String

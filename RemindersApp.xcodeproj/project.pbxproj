@@ -18,6 +18,9 @@
 		751DE0EE2180B3850051817D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 751DE0EC2180B3850051817D /* LaunchScreen.storyboard */; };
 		751DE0F92180B3850051817D /* RemindersAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751DE0F82180B3850051817D /* RemindersAppTests.swift */; };
 		751DE1042180B3850051817D /* RemindersAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751DE1032180B3850051817D /* RemindersAppUITests.swift */; };
+		754E460421A21CFE00B0BDF7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 84FF7D2A2193617600AFCD0D /* GoogleService-Info.plist */; };
+		754E460521A21CFF00B0BDF7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 84FF7D2A2193617600AFCD0D /* GoogleService-Info.plist */; };
+		754E460721A369F300B0BDF7 /* CreateNewListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754E460621A369F300B0BDF7 /* CreateNewListViewController.swift */; };
 		84FCF8D72193E08300D4DEFD /* MainScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FCF8D62193E08300D4DEFD /* MainScreenViewController.swift */; };
 		84FCF8D92193E23600D4DEFD /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FCF8D82193E23600D4DEFD /* SignUpViewController.swift */; };
 		84FCF8DE2193F0C600D4DEFD /* Background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84FCF8DB2193F0C500D4DEFD /* Background.jpg */; };
@@ -67,6 +70,7 @@
 		751DE0FF2180B3850051817D /* RemindersAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RemindersAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		751DE1032180B3850051817D /* RemindersAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersAppUITests.swift; sourceTree = "<group>"; };
 		751DE1052180B3850051817D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		754E460621A369F300B0BDF7 /* CreateNewListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewListViewController.swift; sourceTree = "<group>"; };
 		84FCF8D62193E08300D4DEFD /* MainScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenViewController.swift; sourceTree = "<group>"; };
 		84FCF8D82193E23600D4DEFD /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		84FCF8DB2193F0C500D4DEFD /* Background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Background.jpg; sourceTree = "<group>"; };
@@ -168,6 +172,7 @@
 				751DE0EA2180B3850051817D /* Assets.xcassets */,
 				751DE0EF2180B3850051817D /* Info.plist */,
 				84FF7D2A2193617600AFCD0D /* GoogleService-Info.plist */,
+				754E460621A369F300B0BDF7 /* CreateNewListViewController.swift */,
 			);
 			path = RemindersApp;
 			sourceTree = "<group>";
@@ -322,6 +327,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				754E460421A21CFE00B0BDF7 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -329,6 +335,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				754E460521A21CFF00B0BDF7 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -441,6 +448,7 @@
 				84FCF8D72193E08300D4DEFD /* MainScreenViewController.swift in Sources */,
 				750D7012219CD752002A3F9F /* Task.swift in Sources */,
 				84FCF8D92193E23600D4DEFD /* SignUpViewController.swift in Sources */,
+				754E460721A369F300B0BDF7 /* CreateNewListViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
