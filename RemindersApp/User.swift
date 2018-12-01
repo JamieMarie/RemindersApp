@@ -15,12 +15,14 @@ struct User {
     var lastName: String
     var id: String
     var taskLists: Array<TaskList>
-    init(email:String, firstName:String, lastName:String, id:String, taskLists: Array<TaskList>) {
+    var numTaskLists: Int
+    init(email:String, firstName:String, lastName:String, id:String, taskLists: Array<TaskList>, numTaskLists: Int) {
         self.email = email
         self.firstName = firstName
         self.lastName = lastName
         self.id = id
         self.taskLists = taskLists
+        self.numTaskLists = numTaskLists
     }
 }
 

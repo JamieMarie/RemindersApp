@@ -51,7 +51,7 @@ class SignInViewController: UIViewController {
         }
         if segue.identifier == "registerNewUserSegue" {
             if let destVC = segue.destination as? SignUpViewController {
-                // open the main screen
+                // open the sign up screen
             }
         }
     }

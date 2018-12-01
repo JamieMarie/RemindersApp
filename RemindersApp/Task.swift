@@ -13,15 +13,21 @@ struct Task {
     var description: String
     var priority: String
     var title: String
-    var timestamp: Date
-    var ownedBy: User
+    var dateCreated: Date
+    var expectedCompletion: Date
+    var actualCompletion: Date
+    var ownedBy: String
+    var taskList: String
     
-    init(completed: Bool, description: String, priority: String, title:String, timestamp:Date, ownedBy:User) {
+    init(completed: Bool, description: String, priority: String, title:String, dateCreated:Date, expectedCompletion: Date, actualCompletion: Date, ownedBy:String,taskList:String) {
         self.completed = completed
         self.description = description
         self.priority = priority
         self.title = title
-        self.timestamp  = timestamp
+        self.dateCreated  = dateCreated
+        self.expectedCompletion = expectedCompletion
+        self.actualCompletion = actualCompletion
         self.ownedBy = ownedBy
+        self.taskList = taskList
     }
 }

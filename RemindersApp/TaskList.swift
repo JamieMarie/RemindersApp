@@ -13,13 +13,17 @@ struct TaskList {
     var description: String
     var fullCompletion: Bool
     var name: String
+    var userEmail: String
     var tasks: Array<Task>
+    var numTasks: Int
     
-    init(active: Bool, description: String, fullCompletion: Bool, name: String, tasks: Array<Task>) {
+    init(active: Bool, description: String, fullCompletion: Bool, name: String, userEmail: String, tasks: Array<Task>, numTasks: Int) {
         self.active = active
         self.description = description
         self.fullCompletion = fullCompletion
         self.name = name
+        self.userEmail = userEmail
         self.tasks = tasks
+        self.numTasks = numTasks
     }
 }

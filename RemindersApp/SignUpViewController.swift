@@ -42,14 +42,6 @@ class SignUpViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         _passwordWarning.isHidden = true
-       // self.query = baseQuery()
-//        listener = query?.addSnapshotListener {(documents, error) in
-//            guard let snapchat = documents else {
-//                print("Error fetching data")
-//                return
-//            }
-//        }
-        
     }
     
     @IBAction func RegisterUser(_ sender: Any) {
@@ -72,20 +64,10 @@ class SignUpViewController: UIViewController {
                                 "firstName" : "",
                                 "id" : "",
                                 "lastName" : "",
-                                "taskList" : []
+                                "taskList" : [],
+                                "numTaskLists": 0
                             ]
                             self.ref = self.db.document("Users/\(emailData)")
-                            //ref = db.collection("Users").document("email1").setData(userData)
-                            
-                            
-//                            self.ref = self.db.collection("Users").addDocument(data: userData) { (error) in
-//                                if let error = error {
-//                                    print("Error: \(error.localizedDescription)")
-//                                    } else {
-//                                        print("Data was saved")
-//                                    }
-//
-//                            }
                             
                             self.ref.setData(userData) { (error) in
                                 if let error = error {

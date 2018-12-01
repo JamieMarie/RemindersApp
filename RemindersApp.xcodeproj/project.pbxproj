@@ -18,6 +18,7 @@
 		751DE0EE2180B3850051817D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 751DE0EC2180B3850051817D /* LaunchScreen.storyboard */; };
 		751DE0F92180B3850051817D /* RemindersAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751DE0F82180B3850051817D /* RemindersAppTests.swift */; };
 		751DE1042180B3850051817D /* RemindersAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751DE1032180B3850051817D /* RemindersAppUITests.swift */; };
+		752D43E421AF12360078C49D /* CreateNewTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 752D43E321AF12360078C49D /* CreateNewTaskViewController.swift */; };
 		754E460421A21CFE00B0BDF7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 84FF7D2A2193617600AFCD0D /* GoogleService-Info.plist */; };
 		754E460521A21CFF00B0BDF7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 84FF7D2A2193617600AFCD0D /* GoogleService-Info.plist */; };
 		754E460721A369F300B0BDF7 /* CreateNewListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754E460621A369F300B0BDF7 /* CreateNewListViewController.swift */; };
@@ -70,6 +71,7 @@
 		751DE0FF2180B3850051817D /* RemindersAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RemindersAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		751DE1032180B3850051817D /* RemindersAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersAppUITests.swift; sourceTree = "<group>"; };
 		751DE1052180B3850051817D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		752D43E321AF12360078C49D /* CreateNewTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewTaskViewController.swift; sourceTree = "<group>"; };
 		754E460621A369F300B0BDF7 /* CreateNewListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewListViewController.swift; sourceTree = "<group>"; };
 		84FCF8D62193E08300D4DEFD /* MainScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenViewController.swift; sourceTree = "<group>"; };
 		84FCF8D82193E23600D4DEFD /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
@@ -173,6 +175,7 @@
 				751DE0EF2180B3850051817D /* Info.plist */,
 				84FF7D2A2193617600AFCD0D /* GoogleService-Info.plist */,
 				754E460621A369F300B0BDF7 /* CreateNewListViewController.swift */,
+				752D43E321AF12360078C49D /* CreateNewTaskViewController.swift */,
 			);
 			path = RemindersApp;
 			sourceTree = "<group>";
@@ -444,6 +447,7 @@
 				750D7014219CE4C3002A3F9F /* TaskList.swift in Sources */,
 				751DE0E62180B3830051817D /* SignInViewController.swift in Sources */,
 				751DE0E42180B3830051817D /* AppDelegate.swift in Sources */,
+				752D43E421AF12360078C49D /* CreateNewTaskViewController.swift in Sources */,
 				84FF7D292190EE6C00AFCD0D /* User.swift in Sources */,
 				84FCF8D72193E08300D4DEFD /* MainScreenViewController.swift in Sources */,
 				750D7012219CD752002A3F9F /* Task.swift in Sources */,
