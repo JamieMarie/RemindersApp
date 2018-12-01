@@ -59,7 +59,8 @@ class CreateNewTaskViewController: UIViewController {
         guard let titleData = self.titleField.text, !titleData.isEmpty else { return }
         guard let descriptionData = self.descriptionField.text, !descriptionData.isEmpty else{ return }
         
-        taskDoc = db.document("Tasks/\(currentUser.email)-\(currentTaskList.name)-\(currentTaskList.numTasks + 1)")
+        let random = arc4random()
+        taskDoc = db.document("Tasks/\(currentUser.email)-\(currentTaskList.name)-\(random)")
         let taskData : [String : Any] = [
             "completed" : false,
             "description" : descriptionData,
