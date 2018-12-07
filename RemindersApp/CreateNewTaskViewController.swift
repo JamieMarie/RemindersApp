@@ -17,7 +17,7 @@ class CreateNewTaskViewController: UIViewController {
     @IBOutlet weak var expectedCompletionLabel: UILabel!
     @IBOutlet weak var completionDatePicker: UIDatePicker!
     var currentUser : User = User(email: "", firstName: "", lastName: "", id: "", taskLists: [], numTaskLists: 0)
-    var currentTaskList : TaskList = TaskList(active: false, description: "", fullCompletion: false, name: "", userEmail: "", tasks: [], numTasks: 0)
+    var currentTaskList : TaskList = TaskList(active: false, description: "", fullCompletion: false, name: "", userEmail: "", tasks: [], numTasks: 0, dateCreated: Date())
     var newTask : Task = Task(completed: false, description: "", priority: "", title: "", dateCreated: Date.distantFuture, expectedCompletion: Date.distantFuture, actualCompletion: Date.distantFuture, ownedBy: "",taskList: "")
     var toComplete: Date = Date()
     var dateFormatter : DateFormatter = DateFormatter()
@@ -70,7 +70,7 @@ class CreateNewTaskViewController: UIViewController {
             "expectedCompletion"  :  toComplete ,
             "actualCompletion" : dummyDate,
             "ownedBy" : currentUser.email,
-            "taskList" : currentTaskList.name
+            "taskList" : currentTaskList.name,
         ]
         
         newTask = Task(completed: false, description: descriptionData, priority: "", title: titleData, dateCreated: Date(), expectedCompletion: toComplete, actualCompletion: dummyDate, ownedBy: currentUser.email, taskList: currentTaskList.name)

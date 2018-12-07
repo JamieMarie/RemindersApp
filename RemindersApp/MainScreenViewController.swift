@@ -20,7 +20,7 @@ class MainScreenViewController: UIViewController {
     let db = Firestore.firestore()
     var doc: DocumentReference!
     var currentUser : User = User(email: "", firstName: "", lastName: "", id: "", taskLists: [], numTaskLists: 0)
-    var taskList : TaskList = TaskList(active: false, description: "", fullCompletion: false, name: "", userEmail: "", tasks: [], numTasks: 0)
+    var taskList : TaskList = TaskList(active: false, description: "", fullCompletion: false, name: "", userEmail: "", tasks: [], numTasks: 0, dateCreated: Date.distantPast)
     @IBOutlet weak var todaysTasks: UITableView!
     
     @IBOutlet weak var createNewList: UIButton!
@@ -138,8 +138,9 @@ class MainScreenViewController: UIViewController {
                         let name = d.get("name") as! String
                         let userEmail = d.get("userEmail") as! String
                         let numTasks = d.get("numTasks") as! Int
+                        let dateCreated = d.get("dateCreated") as! Date
                         
-                        self.taskList = TaskList(active: active, description: description, fullCompletion: fullCompletion, name: name, userEmail: userEmail, tasks: [], numTasks: numTasks)
+                        self.taskList = TaskList(active: active, description: description, fullCompletion: fullCompletion, name: name, userEmail: userEmail, tasks: [], numTasks: numTasks, dateCreated: dateCreated)
                     }
                 } else {
                     print("no docs")
