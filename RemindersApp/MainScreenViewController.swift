@@ -32,6 +32,17 @@ class MainScreenViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        Auth.auth().addStateDidChangeListener  { (auth, user) in
+            if let user  = user {
+                print("")
+                print("User signed in:  \(user.email)")
+                print("")
+
+            } else  {
+                print("not signed in")
+            }
+        }
+        
         // if we're seguing from register we will need to call this from somewhere else
         // will need to look into where else we should call this -> onResume equivalent?
         if Auth.auth().currentUser != nil {
@@ -39,6 +50,7 @@ class MainScreenViewController: UIViewController {
             print("Signed in")
             
             let user = Auth.auth().currentUser;
+            print("User email:" + user!.email!)
             
             // now we should also query to see if this user has any task lists
             doc = db.collection("Users").document(user!.email!)
@@ -84,25 +96,25 @@ class MainScreenViewController: UIViewController {
         }
         
     }
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "createNewListSegue" {
-            if let destVC = segue.destination as? CreateNewListViewController {
-                // opens create new list screen
-                // will need to create a delegate to send over the current user
-                destVC.currentUser = self.currentUser
-            }
-        } else if segue.identifier == "createNewTaskSegue"{
-            if let destVC = segue.destination as? CreateNewTaskViewController {
-                // opens create new list screen
-                // will need to create a delegate to send over the current user
-                destVC.currentUser = self.currentUser
-                destVC.currentTaskList = self.taskList
-            }
-        }
-    }
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "createNewListSegue" {
+//            if let destVC = segue.destination as? CreateNewListViewController {
+//                // opens create new list screen
+//                // will need to create a delegate to send over the current user
+//                destVC.currentUser = self.currentUser
+//            }
+//        } else if segue.identifier == "createNewTaskSegue"{
+//            if let destVC = segue.destination as? CreateNewTaskViewController {
+//                // opens create new list screen
+//                // will need to create a delegate to send over the current user
+//                destVC.currentUser = self.currentUser
+//                destVC.currentTaskList = self.taskList
+//            }
+//        }
+//    }
     
     @IBAction func createTask(_ sender: Any) {
-        performSegue(withIdentifier: "createNewTaskSegue", sender: nil)
+        //performSegue(withIdentifier: "createNewTaskSegue", sender: nil)
 
     }
     
@@ -152,7 +164,7 @@ class MainScreenViewController: UIViewController {
     }
     
     @IBAction func createNewListPressed(_ sender: Any) {
-        performSegue(withIdentifier: "createNewListSegue", sender: nil)
+        //performSegue(withIdentifier: "createNewListSegue", sender: nil)
     }
     
 

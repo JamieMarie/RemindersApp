@@ -10,6 +10,7 @@ import Foundation
 
 struct Task {
     var completed: Bool
+    var deleted: Bool
     var description: String
     var priority: String
     var title: String
@@ -19,8 +20,9 @@ struct Task {
     var ownedBy: String
     var taskList: String
     
-    init(completed: Bool, description: String, priority: String, title:String, dateCreated:Date, expectedCompletion: Date, actualCompletion: Date, ownedBy:String,taskList:String) {
+    init(completed: Bool, deleted: Bool, description: String, priority: String, title:String, dateCreated:Date, expectedCompletion: Date, actualCompletion: Date, ownedBy:String,taskList:String) {
         self.completed = completed
+        self.deleted = deleted
         self.description = description
         self.priority = priority
         self.title = title

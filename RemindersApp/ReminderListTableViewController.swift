@@ -13,14 +13,39 @@ import Firebase
 class ReminderListTableViewController: UITableViewController {
     
     var taskLists: [TaskList] = []
+    var dID : String = ""
+    var taskdID : String = ""
     var userEmail : String = "kaylinz47@outlook.com"
     let db = Firestore.firestore()
-    var reminderList : TaskList = TaskList(active: false, description: "", fullCompletion: false, name: "", userEmail: "", tasks: [], numTasks: 0, dateCreated: Date.distantPast)
+    var reminderList : TaskList = TaskList(active: false, description: "", fullCompletion: false, name: "test", userEmail: "kaylinz47@outlook.com", tasks: [], numTasks: 0, dateCreated: Date.distantPast)
+    var reminderListToSend : TaskList = TaskList(active: false, description: "", fullCompletion: false, name: "test", userEmail: "kaylinz47@outlook.com", tasks: [], numTasks: 0, dateCreated: Date.distantPast)
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        let user = Auth.auth().currentUser
+        userEmail = user!.email!
+        //taskLists.append(reminderList)
+        tableView.dataSource = self
+        tableView.delegate = self
+
+        // Uncomment the following line to preserve selection between presentations
+        // self.clearsSelectionOnViewWillAppear = false
+
+        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        getUsersTaskLists()
+
+        tableView.reloadData()
+    }
     
     // query for user's task lists
-    func getUsersTaskLists() -> Int {
+    func getUsersTaskLists() {
+        taskLists = []
         let listCollection = db.collection("TaskLists")
-        listCollection.whereField("userEmail", isEqualTo: userEmail).getDocuments() { (querySnap, error) in
+        listCollection.whereField("userEmail", isEqualTo: userEmail).whereField("active", isEqualTo: true).getDocuments() { (querySnap, error) in
             if let error = error {
                 print("There was an error getting TaskLists documents: \(error)")
             } else {
@@ -41,40 +66,16 @@ class ReminderListTableViewController: UITableViewController {
                     print("Count before leaving loop: \(self.taskLists.count)")
                 }
             }
+            self.tableView.reloadData()
         }
         print("num task Lists: \(self.taskLists.count)")
-        return self.taskLists.count
+        //return self.taskLists.count
+        
+    }
+    @IBAction func createNewList(_ sender: Any) {
         
     }
     
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-//        let semaphore = DispatchSemaphore(value: 0)
-//
-//        self.getUsersTaskLists() {
-//            semaphore.signal()
-//        }
-//        semaphore.wait()
-//        let queue = DispatchQueue(label: "queue1")
-//        queue.async {
-//            self.getUsersTaskLists()
-//        }
-        
-        var c = 0
-        while(c < 1) {
-            c = self.taskLists.count
-        }
-
-        //getUsersTaskLists()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
-    }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -82,10 +83,10 @@ class ReminderListTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-//    override func numberOfSections(in tableView: UITableView) -> Int {
-//        // #warning Incomplete implementation, return the number of sections
-//        return 0
-//    }
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        // #warning Incomplete implementation, return the number of sections
+        return 1
+    }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
@@ -101,6 +102,124 @@ class ReminderListTableViewController: UITableViewController {
         print(taskLists[indexPath.row].name)
 
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let name = self.taskLists[indexPath.row].name
+        print("Name: \(name)")
+        print(taskLists.count)
+        for list in taskLists {
+            if(list.name == name) {
+                print("FOUND: \(name)")
+                self.reminderListToSend = list
+            }
+        }
+        print()
+        print("REMINDER LIST: \(reminderListToSend.description)")
+        print()
+
+    
+        self.performSegue(withIdentifier: "viewTasksSegue", sender: self)
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        
+        if (editingStyle == .delete) {
+            let list = taskLists[indexPath.row]
+            let name = taskLists[indexPath.row].name
+            taskLists.remove(at: indexPath.row)
+           
+            // now we update firestore
+            
+            let listCollection = db.collection("TaskLists")
+            
+            listCollection.whereField("userEmail", isEqualTo: self.userEmail).whereField("name", isEqualTo: name).whereField("active", isEqualTo: true).getDocuments() { (querySnap, error) in
+                if let error = error {
+                    print("There was an error getting TaskLists documents: \(error)")
+                } else {
+                    for d in querySnap!.documents {
+                        // get the data sweetie
+                        self.dID = d.documentID
+                        print("Successfully found doc \(self.dID)")
+                    }
+                    
+                    self.db.collection("TaskLists").document(self.dID).updateData([
+                        "active": false]) { error in
+                            if let error = error {
+                                print("Error updating: \(error)")
+                            } else {
+                                print("successful update")
+                            }
+                    }
+                    
+                    let c = self.db.collection("Tasks")
+                    c.whereField("ownedBy", isEqualTo: self.userEmail).whereField("taskList", isEqualTo: name).whereField("deleted", isEqualTo: false).getDocuments() { (querySnap, error) in
+                        if let error = error {
+                            print("There was an error getting TaskLists documents: \(error)")
+                        } else {
+                            for d in querySnap!.documents {
+                                // get the data sweetie
+                                self.taskdID = d.documentID
+                                print("Successfully found doc \(self.taskdID)")
+                                //print(taskdID)
+                                
+                                self.db.collection("Tasks").document(self.taskdID).updateData([
+                                    "deleted": true]) { error in
+                                        if let error = error {
+                                            print("Error updating: \(error)")
+                                        } else {
+                                            print("successful update")
+                                        }
+                                }
+                                
+                            }
+                        }
+                    }
+                    
+                    
+                    
+
+                }
+            }
+            
+            
+            print("DID " + dID)
+            
+            if (dID != "") {
+                print("entered if")
+                
+                
+                
+                
+                if (taskdID != "") {
+                    
+                }
+                
+            }
+            
+            
+            
+            
+            // now we need to delete all of this lists tasks
+            
+            tableView.deleteRows(at: [indexPath], with: .automatic)  //includes updating UI so reloading is not necessary
+        }
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "createNewListSegue" {
+            if let destVC = segue.destination as? CreateNewListViewController {
+                // opens create new list screen
+                // will need to create a delegate to send over the current user
+               // destVC.currentUser = self.currentUser
+            }
+        } else if segue.identifier == "viewTasksSegue" {
+            if let destVC = segue.destination as? TasksViewController {
+                // opens create new list screen
+                destVC.myTaskList = self.reminderListToSend
+                // will need to create a delegate to send over the current user
+                // destVC.currentUser = self.currentUser
+            }
+        }
     }
     
 

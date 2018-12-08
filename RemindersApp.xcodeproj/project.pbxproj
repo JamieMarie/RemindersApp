@@ -25,6 +25,8 @@
 		75C78C8221BA0ED300FC2AFF /* ReminderListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C78C8121BA0ED300FC2AFF /* ReminderListTableViewController.swift */; };
 		75C78C8321BA2B1100FC2AFF /* ReminderListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C78C8121BA0ED300FC2AFF /* ReminderListTableViewController.swift */; };
 		75C78C8521BA2E9700FC2AFF /* ReminderListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C78C8421BA2E9700FC2AFF /* ReminderListTableViewCell.swift */; };
+		75FFDC8321BB78660089FC88 /* TasksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75FFDC8221BB78660089FC88 /* TasksViewController.swift */; };
+		75FFDC8521BB8D8F0089FC88 /* TaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75FFDC8421BB8D8F0089FC88 /* TaskTableViewCell.swift */; };
 		84FCF8D72193E08300D4DEFD /* MainScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FCF8D62193E08300D4DEFD /* MainScreenViewController.swift */; };
 		84FCF8D92193E23600D4DEFD /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FCF8D82193E23600D4DEFD /* SignUpViewController.swift */; };
 		84FCF8DE2193F0C600D4DEFD /* Background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84FCF8DB2193F0C500D4DEFD /* Background.jpg */; };
@@ -78,6 +80,8 @@
 		754E460621A369F300B0BDF7 /* CreateNewListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewListViewController.swift; sourceTree = "<group>"; };
 		75C78C8121BA0ED300FC2AFF /* ReminderListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderListTableViewController.swift; sourceTree = "<group>"; };
 		75C78C8421BA2E9700FC2AFF /* ReminderListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderListTableViewCell.swift; sourceTree = "<group>"; };
+		75FFDC8221BB78660089FC88 /* TasksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksViewController.swift; sourceTree = "<group>"; };
+		75FFDC8421BB8D8F0089FC88 /* TaskTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTableViewCell.swift; sourceTree = "<group>"; };
 		84FCF8D62193E08300D4DEFD /* MainScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenViewController.swift; sourceTree = "<group>"; };
 		84FCF8D82193E23600D4DEFD /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		84FCF8DB2193F0C500D4DEFD /* Background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Background.jpg; sourceTree = "<group>"; };
@@ -183,6 +187,8 @@
 				752D43E321AF12360078C49D /* CreateNewTaskViewController.swift */,
 				75C78C8121BA0ED300FC2AFF /* ReminderListTableViewController.swift */,
 				75C78C8421BA2E9700FC2AFF /* ReminderListTableViewCell.swift */,
+				75FFDC8221BB78660089FC88 /* TasksViewController.swift */,
+				75FFDC8421BB8D8F0089FC88 /* TaskTableViewCell.swift */,
 			);
 			path = RemindersApp;
 			sourceTree = "<group>";
@@ -452,10 +458,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				750D7014219CE4C3002A3F9F /* TaskList.swift in Sources */,
+				75FFDC8521BB8D8F0089FC88 /* TaskTableViewCell.swift in Sources */,
 				751DE0E62180B3830051817D /* SignInViewController.swift in Sources */,
 				751DE0E42180B3830051817D /* AppDelegate.swift in Sources */,
 				752D43E421AF12360078C49D /* CreateNewTaskViewController.swift in Sources */,
 				84FF7D292190EE6C00AFCD0D /* User.swift in Sources */,
+				75FFDC8321BB78660089FC88 /* TasksViewController.swift in Sources */,
 				75C78C8221BA0ED300FC2AFF /* ReminderListTableViewController.swift in Sources */,
 				75C78C8521BA2E9700FC2AFF /* ReminderListTableViewCell.swift in Sources */,
 				84FCF8D72193E08300D4DEFD /* MainScreenViewController.swift in Sources */,

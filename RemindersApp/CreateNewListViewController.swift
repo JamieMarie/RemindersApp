@@ -16,12 +16,17 @@ class CreateNewListViewController: UIViewController {
     @IBOutlet weak var titleField: UITextField!
     
     var currentUser : User = User(email: "", firstName: "", lastName: "", id: "", taskLists: [], numTaskLists: 0)
+    var userEmail : String!
+    var docID : String = ""
     var doc: DocumentReference!
     var taskList : TaskList = TaskList(active: false, description: "", fullCompletion: false, name: "", userEmail: "", tasks: [], numTasks: 0, dateCreated: Date())
     let db = Firestore.firestore()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        userEmail = Auth.auth().currentUser!.email!
+        queryCurrentUser()
+
 
         // Do any additional setup after loading the view.
     }
@@ -36,13 +41,13 @@ class CreateNewListViewController: UIViewController {
         guard let titleData = self.titleField.text, !titleData.isEmpty else { return }
         guard let descriptionData = self.descriptionField.text, !descriptionData.isEmpty else { return }
 
-        doc = db.document("TaskLists/\(currentUser.email)-\(titleData)")
+        doc = db.collection("TaskLists").document()
         let taskListData : [String: Any] = [
             "active": true,
             "description": descriptionData,
             "fullCompletion": false,
             "name": titleData,
-            "userEmail": currentUser.email,
+            "userEmail": userEmail,
             "tasks": [],
             "numTasks": 0,
             "dateCreated": Date()
@@ -59,7 +64,8 @@ class CreateNewListViewController: UIViewController {
         
         // we also need to update the user
         print("starting user transaction")
-        let uReference = db.document("Users/\(currentUser.email)")
+        print(docID)
+        let uReference = db.collection("Users").document(docID)
         db.runTransaction({(transaction, error) -> Any? in
             let uDoc: DocumentSnapshot
             do {
@@ -102,6 +108,21 @@ class CreateNewListViewController: UIViewController {
     
     @IBAction func cancelButton(_ sender: Any) {
         self.navigationController?.popViewController(animated:true)
+    }
+    
+    func queryCurrentUser() {
+        let collection = db.collection("Users")
+        collection.whereField("email", isEqualTo: userEmail).getDocuments() { (querySnap, error) in
+            if let error = error {
+                print("Error getting users: \(error)")
+            } else {
+                for d in querySnap!.documents {
+                    self.docID = d.documentID
+                    print(self.docID)
+                }
+            }
+            
+        }
     }
     
 

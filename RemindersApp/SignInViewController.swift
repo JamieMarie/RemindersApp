@@ -23,11 +23,17 @@ class SignInViewController: UIViewController {
                 Auth.auth().signIn(withEmail: _username.text!, password: _password.text!) {
                     (user, error) in
                     if let error = error {
+                        print("")
                         print("There was an error doing: ")
                         print(error.localizedDescription)
+                        print("")
+                        loginSuccess = false
                     }
                     else {
+                        print("")
                         print("User signed in!")
+                        print("Signin:  \(user?.user.email!)")
+                        print("")
                         loginSuccess = true
                     }
                 }

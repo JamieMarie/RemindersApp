@@ -18,15 +18,19 @@ class CreateNewTaskViewController: UIViewController {
     @IBOutlet weak var completionDatePicker: UIDatePicker!
     var currentUser : User = User(email: "", firstName: "", lastName: "", id: "", taskLists: [], numTaskLists: 0)
     var currentTaskList : TaskList = TaskList(active: false, description: "", fullCompletion: false, name: "", userEmail: "", tasks: [], numTasks: 0, dateCreated: Date())
-    var newTask : Task = Task(completed: false, description: "", priority: "", title: "", dateCreated: Date.distantFuture, expectedCompletion: Date.distantFuture, actualCompletion: Date.distantFuture, ownedBy: "",taskList: "")
+    var newTask : Task = Task(completed: false, deleted: false, description: "", priority: "", title: "", dateCreated: Date.distantFuture, expectedCompletion: Date.distantFuture, actualCompletion: Date.distantFuture, ownedBy: "",taskList: "")
     var toComplete: Date = Date()
     var dateFormatter : DateFormatter = DateFormatter()
     var taskDoc : DocumentReference!
     let db = Firestore.firestore()
     let  dummyDate  = Date(timeIntervalSince1970: -123456789.0)
+    var userEmail : String = ""
+    var docID : String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        userEmail = Auth.auth().currentUser!.email!
+        queryCurrentList()
         
         // will need to  put this  in a separate function
         completionDatePicker.timeZone = NSTimeZone.local
@@ -59,21 +63,21 @@ class CreateNewTaskViewController: UIViewController {
         guard let titleData = self.titleField.text, !titleData.isEmpty else { return }
         guard let descriptionData = self.descriptionField.text, !descriptionData.isEmpty else{ return }
         
-        let random = arc4random()
-        taskDoc = db.document("Tasks/\(currentUser.email)-\(currentTaskList.name)-\(random)")
+        taskDoc = db.collection("Tasks").document()
         let taskData : [String : Any] = [
             "completed" : false,
+            "deleted" : false,
             "description" : descriptionData,
             "priority" : "",
             "title" : titleData,
             "dateCreated" : Date(),
             "expectedCompletion"  :  toComplete ,
             "actualCompletion" : dummyDate,
-            "ownedBy" : currentUser.email,
+            "ownedBy" : userEmail,
             "taskList" : currentTaskList.name,
         ]
         
-        newTask = Task(completed: false, description: descriptionData, priority: "", title: titleData, dateCreated: Date(), expectedCompletion: toComplete, actualCompletion: dummyDate, ownedBy: currentUser.email, taskList: currentTaskList.name)
+        newTask = Task(completed: false, deleted: false, description: descriptionData, priority: "", title: titleData, dateCreated: Date(), expectedCompletion: toComplete, actualCompletion: dummyDate, ownedBy: currentUser.email, taskList: currentTaskList.name)
         
         taskDoc.setData(taskData) { (error) in
             if let error = error {
@@ -84,7 +88,8 @@ class CreateNewTaskViewController: UIViewController {
         }
         
         // update the parent task list
-        let uReference = db.document("TaskLists/\(currentUser.email)-\(currentTaskList.name)")
+        let uReference = db.collection("TaskLists").document(docID)
+        
         db.runTransaction({(transaction, error) -> Any? in
             let uDoc: DocumentSnapshot
             do {
@@ -126,6 +131,21 @@ class CreateNewTaskViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func queryCurrentList() {
+        let collection = db.collection("TaskLists")
+        collection.whereField("userEmail", isEqualTo: userEmail).whereField("name", isEqualTo: currentTaskList.name).getDocuments() { (querySnap, error) in
+            if let error = error {
+                print("Error getting users: \(error)")
+            } else {
+                for d in querySnap!.documents {
+                    self.docID = d.documentID
+                    print(self.docID)
+                }
+            }
+            
+        }
     }
     
 

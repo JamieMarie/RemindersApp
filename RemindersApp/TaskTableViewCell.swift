@@ -1,17 +1,16 @@
 //
-//  ReminderListTableViewCell.swift
+//  TaskTableViewCell.swift
 //  RemindersApp
 //
-//  Created by Kaylin Zaroukian on 12/6/18.
+//  Created by Kaylin Zaroukian on 12/8/18.
 //  Copyright © 2018 CIS 347. All rights reserved.
 //
 
 import UIKit
 
-class ReminderListTableViewCell: UITableViewCell {
-
-    @IBOutlet weak var listTitle: UILabel!
+class TaskTableViewCell: UITableViewCell {
     
+    @IBOutlet weak var taskTitle: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -22,6 +21,5 @@ class ReminderListTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
 
 }
