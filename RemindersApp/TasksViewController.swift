@@ -64,15 +64,54 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
 
     }
     
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        
-        if (editingStyle == .delete) {
-            let name = tasks[indexPath.row].title
-            tasks.remove(at: indexPath.row)
+//    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+//        return true
+//    }
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let complete = UIContextualAction(style: .normal, title: "Complete") { action, index, completion in
+            // do the stuff
+            let name = self.tasks[indexPath.row].title
+            self.tasks.remove(at: indexPath.row)
             
             let c = self.db.collection("Tasks")
-            c.whereField("ownedBy", isEqualTo: myTaskList.userEmail).whereField("taskList", isEqualTo: myTaskList.name).whereField("title", isEqualTo: name).whereField("deleted", isEqualTo: false).getDocuments() { (querySnap, error) in
+            c.whereField("ownedBy", isEqualTo: self.myTaskList.userEmail).whereField("taskList", isEqualTo: self.myTaskList.name).whereField("title", isEqualTo: name).whereField("deleted", isEqualTo: false).getDocuments() { (querySnap, error) in
+                if let error = error {
+                    print("There was an error getting TaskLists documents: \(error)")
+                } else {
+                    for d in querySnap!.documents {
+                        // get the data sweetie
+                        self.taskdID = d.documentID
+                        print("Successfully found doc \(self.taskdID)")
+                        //print(taskdID)
+                        
+                        self.db.collection("Tasks").document(self.taskdID).updateData([
+                            "completed": true]) { error in
+                                if let error = error {
+                                    print("Error updating: \(error)")
+                                } else {
+                                    print("successful update")
+                                }
+                        }
+                        
+                    }
+                }
+            }
+            
+            tableView.deleteRows(at: [indexPath], with: .automatic)  //includes updating UI so reloading is not necessary
+            
+        }
+        complete.backgroundColor = .green
+        return UISwipeActionsConfiguration(actions: [complete])
+
+    }
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let delete = UIContextualAction(style: .normal, title: "Delete") { action, index, completion in
+            // do the stuff
+            let name = self.tasks[indexPath.row].title
+            self.tasks.remove(at: indexPath.row)
+            
+            let c = self.db.collection("Tasks")
+            c.whereField("ownedBy", isEqualTo: self.myTaskList.userEmail).whereField("taskList", isEqualTo: self.myTaskList.name).whereField("title", isEqualTo: name).whereField("deleted", isEqualTo: false).getDocuments() { (querySnap, error) in
                 if let error = error {
                     print("There was an error getting TaskLists documents: \(error)")
                 } else {
@@ -94,10 +133,52 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
                     }
                 }
             }
-           
+            
             tableView.deleteRows(at: [indexPath], with: .automatic)  //includes updating UI so reloading is not necessary
+            
         }
+        delete.backgroundColor = .red
+        return UISwipeActionsConfiguration(actions: [delete])
     }
+    
+//    func tableView(_ tableView: UITableView, editActionsForRowAt: IndexPath) -> [UITableViewRowAction]? {
+//        let complete = UITableViewRowAction(style: )
+//        return []
+//    }
+//
+//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+//
+//        if (editingStyle == .delete) {
+//            let name = tasks[indexPath.row].title
+//            tasks.remove(at: indexPath.row)
+//
+//            let c = self.db.collection("Tasks")
+//            c.whereField("ownedBy", isEqualTo: myTaskList.userEmail).whereField("taskList", isEqualTo: myTaskList.name).whereField("title", isEqualTo: name).whereField("deleted", isEqualTo: false).getDocuments() { (querySnap, error) in
+//                if let error = error {
+//                    print("There was an error getting TaskLists documents: \(error)")
+//                } else {
+//                    for d in querySnap!.documents {
+//                        // get the data sweetie
+//                        self.taskdID = d.documentID
+//                        print("Successfully found doc \(self.taskdID)")
+//                        //print(taskdID)
+//
+//                        self.db.collection("Tasks").document(self.taskdID).updateData([
+//                            "deleted": true]) { error in
+//                                if let error = error {
+//                                    print("Error updating: \(error)")
+//                                } else {
+//                                    print("successful update")
+//                                }
+//                        }
+//
+//                    }
+//                }
+//            }
+//
+//            tableView.deleteRows(at: [indexPath], with: .automatic)  //includes updating UI so reloading is not necessary
+//        }
+//    }
 
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -110,11 +191,12 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
     }
     
+    
     // query for tasks
     func getMyTasks() {
         tasks = []
         let listCollection = db.collection("Tasks")
-        listCollection.whereField("ownedBy", isEqualTo: myTaskList.userEmail).whereField("taskList", isEqualTo: myTaskList.name).whereField("deleted", isEqualTo: false).getDocuments() { (querySnap, error) in
+        listCollection.whereField("ownedBy", isEqualTo: myTaskList.userEmail).whereField("taskList", isEqualTo: myTaskList.name).whereField("deleted", isEqualTo: false).whereField("completed", isEqualTo: false).getDocuments() { (querySnap, error) in
             if let error = error {
                 print("There was an error getting TaskLists documents: \(error)")
             } else {
