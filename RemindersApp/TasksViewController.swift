@@ -14,6 +14,7 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     @IBOutlet weak var navBarTitle: UINavigationItem!
     var tasks : [Task] = []
+    var taskdID : String = ""
     var myTaskList : TaskList = TaskList(active: true, description: "", fullCompletion: false, name: "", userEmail: "", tasks: [], numTasks: 0, dateCreated: Date())
     var task : Task = Task(completed: false, deleted: false, description: "", priority: "", title: "", dateCreated: Date(), expectedCompletion: Date(), actualCompletion: Date(), ownedBy: "", taskList: "")
 
@@ -34,6 +35,7 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
     override func viewWillAppear(_ animated: Bool) {
         getMyTasks()
         tableView.reloadData()
+        
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -58,9 +60,45 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //let name = self.tasks[indexPath.row].title
+        
 
-//        self.performSegue(withIdentifier: "createNewTaskSegue", sender: self)
     }
+    
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        
+        if (editingStyle == .delete) {
+            let name = tasks[indexPath.row].title
+            tasks.remove(at: indexPath.row)
+            
+            let c = self.db.collection("Tasks")
+            c.whereField("ownedBy", isEqualTo: myTaskList.userEmail).whereField("taskList", isEqualTo: myTaskList.name).whereField("title", isEqualTo: name).whereField("deleted", isEqualTo: false).getDocuments() { (querySnap, error) in
+                if let error = error {
+                    print("There was an error getting TaskLists documents: \(error)")
+                } else {
+                    for d in querySnap!.documents {
+                        // get the data sweetie
+                        self.taskdID = d.documentID
+                        print("Successfully found doc \(self.taskdID)")
+                        //print(taskdID)
+                        
+                        self.db.collection("Tasks").document(self.taskdID).updateData([
+                            "deleted": true]) { error in
+                                if let error = error {
+                                    print("Error updating: \(error)")
+                                } else {
+                                    print("successful update")
+                                }
+                        }
+                        
+                    }
+                }
+            }
+           
+            tableView.deleteRows(at: [indexPath], with: .automatic)  //includes updating UI so reloading is not necessary
+        }
+    }
+
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "createNewTaskSegue" {

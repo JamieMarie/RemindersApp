@@ -125,7 +125,6 @@ class ReminderListTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         
         if (editingStyle == .delete) {
-            let list = taskLists[indexPath.row]
             let name = taskLists[indexPath.row].name
             taskLists.remove(at: indexPath.row)
            
