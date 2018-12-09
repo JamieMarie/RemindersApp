@@ -55,6 +55,11 @@ class SignInViewController: UIViewController {
         
     }
     
+    
+    @objc func dismissKeyboard() {
+        self.view.endEditing(true)
+    }
+    
     @IBAction func RegisterButton(_ sender: Any) {
         self.performSegue(withIdentifier: "registerNewUserSegue", sender: self)
     }
@@ -74,6 +79,9 @@ class SignInViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let detectTouch = UITapGestureRecognizer(target: self, action:
+            #selector(self.dismissKeyboard))
+        self.view.addGestureRecognizer(detectTouch)
         // Do any additional setup after loading the view, typically from a nib.
     }
 

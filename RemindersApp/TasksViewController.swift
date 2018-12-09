@@ -347,6 +347,9 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
                     self.tasks.append(self.task)
                     print("Count before leaving loop: \(self.tasks.count)")
                 }
+                self.tasks.sort() {
+                    $0.dateCreated > $1.dateCreated
+                }
             }
             self.tableView.reloadData()
         }

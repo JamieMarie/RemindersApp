@@ -19,9 +19,17 @@ class AddFriendViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         userEmail = Auth.auth().currentUser!.email!
+        let detectTouch = UITapGestureRecognizer(target: self, action:
+            #selector(self.dismissKeyboard))
+        self.view.addGestureRecognizer(detectTouch)
 
         // Do any additional setup after loading the view.
     }
+    
+    @objc func dismissKeyboard() {
+        self.view.endEditing(true)
+    }
+    
     @IBAction func addNewFriend(_ sender: Any) {
         
         var dID : String = ""

@@ -31,15 +31,22 @@ class CreateNewTaskViewController: UIViewController {
         userEmail = Auth.auth().currentUser!.email!
         queryCurrentList()
         
+        dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM-dd-yyyy HH:min"
+        expectedCompletionLabel.text = dateFormatter.string(from: Date())
+        
         // will need to  put this  in a separate function
         completionDatePicker.timeZone = NSTimeZone.local
         completionDatePicker.backgroundColor = UIColor.white
         completionDatePicker.datePickerMode = .dateAndTime
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(self.tapped))
-        self.expectedCompletionLabel.addGestureRecognizer(tap)
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(self.tapped))
+//        self.expectedCompletionLabel.addGestureRecognizer(tap)
         
         self.completionDatePicker.isHidden = false
+        let detectTouch = UITapGestureRecognizer(target: self, action:
+            #selector(self.dismissKeyboard))
+        self.view.addGestureRecognizer(detectTouch)
 
 
         // Do any additional setup after loading the view.
@@ -47,12 +54,16 @@ class CreateNewTaskViewController: UIViewController {
         // going to need to add listeners for page clicks and stuff but don't feel like doing that rn
     }
     
-    @objc
-    func tapped(sender: UITapGestureRecognizer){
-        print("gesture recognizer tapped.")
-        self.completionDatePicker.isHidden = false
-        
+//    @objc func tapped(sender: UITapGestureRecognizer){
+//        print("gesture recognizer tapped.")
+//        self.completionDatePicker.isHidden = false
+//
+//    }
+    
+    @objc func dismissKeyboard() {
+        self.view.endEditing(true)
     }
+    
     
     @IBAction func cancelButton(_ sender: Any) {
         self.navigationController?.popViewController(animated:true)
@@ -130,9 +141,12 @@ class CreateNewTaskViewController: UIViewController {
 
     }
     @IBAction func datePickerPressed(_ sender: Any) {
+        print()
+        print("Clicker clicked")
         dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd-MM-yyyy HH:min"
+        dateFormatter.dateFormat = "MM-dd-yyyy HH:min"
         expectedCompletionLabel.text = dateFormatter.string(from: completionDatePicker.date)
+        print(expectedCompletionLabel.text!)
         toComplete = completionDatePicker.date
     }
     

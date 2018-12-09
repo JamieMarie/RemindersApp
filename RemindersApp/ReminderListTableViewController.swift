@@ -66,6 +66,9 @@ class ReminderListTableViewController: UITableViewController {
                     self.taskLists.append(self.reminderList)
                     print("Count before leaving loop: \(self.taskLists.count)")
                 }
+                self.taskLists.sort() {
+                    $0.dateCreated > $1.dateCreated
+                }
             }
             self.tableView.reloadData()
         }

@@ -27,9 +27,19 @@ class CreateNewListViewController: UIViewController {
         super.viewDidLoad()
         userEmail = Auth.auth().currentUser!.email!
         queryCurrentUser()
+        // dismiss keyboard when tapping outside oftext fields
+        let detectTouch = UITapGestureRecognizer(target: self, action:
+            #selector(self.dismissKeyboard))
+        self.view.addGestureRecognizer(detectTouch)
+        
 
 
         // Do any additional setup after loading the view.
+    }
+    
+    
+    @objc func dismissKeyboard() {
+        self.view.endEditing(true)
     }
 
     override func didReceiveMemoryWarning() {

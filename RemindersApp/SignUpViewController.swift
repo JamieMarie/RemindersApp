@@ -43,7 +43,15 @@ class SignUpViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         _passwordWarning.isHidden = true
+        let detectTouch = UITapGestureRecognizer(target: self, action:
+            #selector(self.dismissKeyboard))
+        self.view.addGestureRecognizer(detectTouch)
     }
+    
+    @objc func dismissKeyboard() {
+        self.view.endEditing(true)
+    }
+    
     
     @IBAction func RegisterUser(_ sender: Any) {
         var registerSuccess: Bool = false

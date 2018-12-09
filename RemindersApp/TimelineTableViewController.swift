@@ -76,6 +76,9 @@ class TimelineTableViewController: UITableViewController {
                             }
                             
                         }
+                        self.posts.sort() {
+                            $0.datePosted > $1.datePosted
+                        }
                     }
                     self.tableView.reloadData()
                     
