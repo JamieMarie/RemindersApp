@@ -19,7 +19,8 @@ class CreateNewListViewController: UIViewController {
     var userEmail : String!
     var docID : String = ""
     var doc: DocumentReference!
-    var taskList : TaskList = TaskList(active: false, description: "", fullCompletion: false, name: "", userEmail: "", tasks: [], numTasks: 0, dateCreated: Date())
+    var taskList : TaskList = TaskList(active: false, description: "", fullCompletion: false, name: "", userEmail: "", tasks: [], numTasks: 0, dateCreated: Date(), taskListID: 0)
+
     let db = Firestore.firestore()
 
     override func viewDidLoad() {
@@ -38,8 +39,15 @@ class CreateNewListViewController: UIViewController {
 
     
     @IBAction func saveButton(_ sender: Any) {
+        if (self.titleField.text!.isEmpty || self.descriptionField.text!.isEmpty) {
+            let alert = UIAlertController(title: "Error", message: "Name and Description Cannot be Blank", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
         guard let titleData = self.titleField.text, !titleData.isEmpty else { return }
         guard let descriptionData = self.descriptionField.text, !descriptionData.isEmpty else { return }
+        var taskListID : Int = Int(arc4random_uniform(4294967291))
+
 
         doc = db.collection("TaskLists").document()
         let taskListData : [String: Any] = [
@@ -50,9 +58,11 @@ class CreateNewListViewController: UIViewController {
             "userEmail": userEmail,
             "tasks": [],
             "numTasks": 0,
-            "dateCreated": Date()
+            "dateCreated": Date(),
+            "taskListID": taskListID
+
         ]
-        taskList = TaskList(active: true, description: descriptionData, fullCompletion: false, name: titleData, userEmail: currentUser.email, tasks: [], numTasks: 0, dateCreated: Date())
+        taskList = TaskList(active: true, description: descriptionData, fullCompletion: false, name: titleData, userEmail: currentUser.email, tasks: [], numTasks: 0, dateCreated: Date(), taskListID: taskListID)
         
         doc.setData(taskListData) { (error) in
             if let error = error {

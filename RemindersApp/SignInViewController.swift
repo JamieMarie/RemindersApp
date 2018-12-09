@@ -28,6 +28,11 @@ class SignInViewController: UIViewController {
                         print(error.localizedDescription)
                         print("")
                         loginSuccess = false
+                        let alert = UIAlertController(title: "Error", message: "Invalid email or password", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
+
+
                     }
                     else {
                         print("")
@@ -42,6 +47,10 @@ class SignInViewController: UIViewController {
         }
         if loginSuccess == true {
             //performSegue(withIdentifier: "Login", sender: nil)
+            let alert = UIAlertController(title: "Error", message: "Invalid email or password", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+
         }
         
     }

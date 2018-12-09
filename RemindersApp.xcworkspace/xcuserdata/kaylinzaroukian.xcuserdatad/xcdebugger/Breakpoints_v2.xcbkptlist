@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RemindersApp/SignUpViewController.swift"
-            timestampString = "566077868.538482"
+            timestampString = "566089202.179471"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "73"
-            endingLineNumber = "73"
+            startingLineNumber = "97"
+            endingLineNumber = "97"
             landmarkName = "RegisterUser(_:)"
             landmarkType = "7">
          </BreakpointContent>

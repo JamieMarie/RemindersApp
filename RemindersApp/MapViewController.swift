@@ -33,6 +33,11 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
         }
+        if !CLLocationManager.locationServicesEnabled() {
+            let alert = UIAlertController(title: "Location Services Disabled", message: "Please Enable Location Services to Use the Map", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
 
         // Do any additional setup after loading the view.
     }

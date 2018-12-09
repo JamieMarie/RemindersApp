@@ -19,8 +19,10 @@ struct Task {
     var actualCompletion: Date
     var ownedBy: String
     var taskList: String
+    var taskListID: Int
+    var taskID: Int
     
-    init(completed: Bool, deleted: Bool, description: String, priority: String, title:String, dateCreated:Date, expectedCompletion: Date, actualCompletion: Date, ownedBy:String,taskList:String) {
+    init(completed: Bool, deleted: Bool, description: String, priority: String, title:String, dateCreated:Date, expectedCompletion: Date, actualCompletion: Date, ownedBy:String,taskList:String, taskListID:Int, taskID:Int) {
         self.completed = completed
         self.deleted = deleted
         self.description = description
@@ -31,5 +33,7 @@ struct Task {
         self.actualCompletion = actualCompletion
         self.ownedBy = ownedBy
         self.taskList = taskList
+        self.taskListID = taskListID
+        self.taskID = taskID
     }
 }

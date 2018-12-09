@@ -15,10 +15,10 @@ class ReminderListTableViewController: UITableViewController {
     var taskLists: [TaskList] = []
     var dID : String = ""
     var taskdID : String = ""
-    var userEmail : String = "kaylinz47@outlook.com"
+    var userEmail : String = ""
     let db = Firestore.firestore()
-    var reminderList : TaskList = TaskList(active: false, description: "", fullCompletion: false, name: "test", userEmail: "kaylinz47@outlook.com", tasks: [], numTasks: 0, dateCreated: Date.distantPast)
-    var reminderListToSend : TaskList = TaskList(active: false, description: "", fullCompletion: false, name: "test", userEmail: "kaylinz47@outlook.com", tasks: [], numTasks: 0, dateCreated: Date.distantPast)
+    var reminderList : TaskList = TaskList(active: false, description: "", fullCompletion: false, name: "test", userEmail: "", tasks: [], numTasks: 0, dateCreated: Date.distantPast, taskListID: 0)
+    var reminderListToSend : TaskList = TaskList(active: false, description: "", fullCompletion: false, name: "test", userEmail: "", tasks: [], numTasks: 0, dateCreated: Date.distantPast, taskListID: 0)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,8 +58,9 @@ class ReminderListTableViewController: UITableViewController {
                     let userEmail = d.get("userEmail") as! String
                     let numTasks = d.get("numTasks") as! Int
                     let dateCreated = d.get("dateCreated") as! Date
+                    let taskListID = d.get("taskListID") as! Int
                     
-                    self.reminderList = TaskList(active: active, description: description, fullCompletion: fullCompletion, name: name, userEmail: userEmail, tasks: [], numTasks: numTasks, dateCreated: dateCreated)
+                    self.reminderList = TaskList(active: active, description: description, fullCompletion: fullCompletion, name: name, userEmail: userEmail, tasks: [], numTasks: numTasks, dateCreated: dateCreated, taskListID: taskListID)
                     print(self.reminderList.name)
                     
                     self.taskLists.append(self.reminderList)
@@ -126,13 +127,14 @@ class ReminderListTableViewController: UITableViewController {
         
         if (editingStyle == .delete) {
             let name = taskLists[indexPath.row].name
+            let tID = taskLists[indexPath.row].taskListID
             taskLists.remove(at: indexPath.row)
            
             // now we update firestore
             
             let listCollection = db.collection("TaskLists")
             
-            listCollection.whereField("userEmail", isEqualTo: self.userEmail).whereField("name", isEqualTo: name).whereField("active", isEqualTo: true).getDocuments() { (querySnap, error) in
+            listCollection.whereField("userEmail", isEqualTo: self.userEmail).whereField("name", isEqualTo: name).whereField("active", isEqualTo: true).whereField("tID", isEqualTo: tID).getDocuments() { (querySnap, error) in
                 if let error = error {
                     print("There was an error getting TaskLists documents: \(error)")
                 } else {
@@ -152,7 +154,7 @@ class ReminderListTableViewController: UITableViewController {
                     }
                     
                     let c = self.db.collection("Tasks")
-                    c.whereField("ownedBy", isEqualTo: self.userEmail).whereField("taskList", isEqualTo: name).whereField("deleted", isEqualTo: false).getDocuments() { (querySnap, error) in
+                    c.whereField("ownedBy", isEqualTo: self.userEmail).whereField("taskList", isEqualTo: name).whereField("taskListID", isEqualTo: tID).whereField("deleted", isEqualTo: false).getDocuments() { (querySnap, error) in
                         if let error = error {
                             print("There was an error getting TaskLists documents: \(error)")
                         } else {

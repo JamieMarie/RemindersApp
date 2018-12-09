@@ -50,6 +50,7 @@ class RemindTabBarController: UITabBarController {
     
     @IBAction func unwindFromSignup(segue: UIStoryboardSegue) {
         // we end up here when the user signs up for a new account.
+        print("We get here before segue")
     }
 
     

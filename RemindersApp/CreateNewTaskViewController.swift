@@ -13,12 +13,11 @@ import FirebaseFirestore
 class CreateNewTaskViewController: UIViewController {
 
     @IBOutlet weak var titleField: UITextField!
-    @IBOutlet weak var descriptionField: UITextField!
     @IBOutlet weak var expectedCompletionLabel: UILabel!
     @IBOutlet weak var completionDatePicker: UIDatePicker!
     var currentUser : User = User(email: "", firstName: "", lastName: "", id: "", taskLists: [], numTaskLists: 0, streakDate: Date.distantFuture, streakNum: 0, friends: [])
-    var currentTaskList : TaskList = TaskList(active: false, description: "", fullCompletion: false, name: "", userEmail: "", tasks: [], numTasks: 0, dateCreated: Date())
-    var newTask : Task = Task(completed: false, deleted: false, description: "", priority: "", title: "", dateCreated: Date.distantFuture, expectedCompletion: Date.distantFuture, actualCompletion: Date.distantFuture, ownedBy: "",taskList: "")
+    var currentTaskList : TaskList = TaskList(active: false, description: "", fullCompletion: false, name: "", userEmail: "", tasks: [], numTasks: 0, dateCreated: Date(), taskListID: 0)
+    var newTask : Task = Task(completed: false, deleted: false, description: "", priority: "", title: "", dateCreated: Date.distantFuture, expectedCompletion: Date.distantFuture, actualCompletion: Date.distantFuture, ownedBy: "",taskList: "", taskListID: 0, taskID: 0)
     var toComplete: Date = Date()
     var dateFormatter : DateFormatter = DateFormatter()
     var taskDoc : DocumentReference!
@@ -60,14 +59,21 @@ class CreateNewTaskViewController: UIViewController {
 
     }
     @IBAction func saveButton(_ sender: Any) {
+        
+        if (self.titleField.text!.isEmpty ) {
+            let alert = UIAlertController(title: "Error", message: "Task Title Cannot be Blank", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+        
         guard let titleData = self.titleField.text, !titleData.isEmpty else { return }
-        guard let descriptionData = self.descriptionField.text, !descriptionData.isEmpty else{ return }
+        var taskID : Int = Int(arc4random_uniform(4294967291))
         
         taskDoc = db.collection("Tasks").document()
         let taskData : [String : Any] = [
             "completed" : false,
             "deleted" : false,
-            "description" : descriptionData,
+            "description" : "",
             "priority" : "",
             "title" : titleData,
             "dateCreated" : Date(),
@@ -75,9 +81,11 @@ class CreateNewTaskViewController: UIViewController {
             "actualCompletion" : dummyDate,
             "ownedBy" : userEmail,
             "taskList" : currentTaskList.name,
+            "taskListID" : currentTaskList.taskListID,
+            "taskID" : taskID
         ]
         
-        newTask = Task(completed: false, deleted: false, description: descriptionData, priority: "", title: titleData, dateCreated: Date(), expectedCompletion: toComplete, actualCompletion: dummyDate, ownedBy: currentUser.email, taskList: currentTaskList.name)
+        newTask = Task(completed: false, deleted: false, description: "", priority: "", title: titleData, dateCreated: Date(), expectedCompletion: toComplete, actualCompletion: dummyDate, ownedBy: currentUser.email, taskList: currentTaskList.name, taskListID: currentTaskList.taskListID, taskID: taskID)
         
         taskDoc.setData(taskData) { (error) in
             if let error = error {
@@ -135,7 +143,7 @@ class CreateNewTaskViewController: UIViewController {
     
     func queryCurrentList() {
         let collection = db.collection("TaskLists")
-        collection.whereField("userEmail", isEqualTo: userEmail).whereField("name", isEqualTo: currentTaskList.name).getDocuments() { (querySnap, error) in
+        collection.whereField("userEmail", isEqualTo: userEmail).whereField("name", isEqualTo: currentTaskList.name).whereField("taskListID", isEqualTo: currentTaskList.taskListID).getDocuments() { (querySnap, error) in
             if let error = error {
                 print("Error getting users: \(error)")
             } else {

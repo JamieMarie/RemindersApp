@@ -31,7 +31,7 @@ class MainScreenViewController: UIViewController, UITableViewDataSource, UITable
     var lon : Double = 0.0
     let qAPI = FavQService.getInstance()
 
-    var dailyTask : Task = Task(completed: false, deleted: false, description: "", priority: "", title: "", dateCreated: Date(), expectedCompletion: Date(), actualCompletion: Date(), ownedBy: "", taskList: "")
+    var dailyTask : Task = Task(completed: false, deleted: false, description: "", priority: "", title: "", dateCreated: Date(), expectedCompletion: Date(), actualCompletion: Date(), ownedBy: "", taskList: "", taskListID: 0, taskID: 0)
     
     @IBOutlet weak var taskCompletion: UILabel!
     
@@ -155,9 +155,10 @@ class MainScreenViewController: UIViewController, UITableViewDataSource, UITable
             // do the stuff
             let name = self.tasks[indexPath.row].title
             let taskList = self.tasks[indexPath.row].taskList
+            let taskID = self.tasks[indexPath.row].taskID
             self.tasks.remove(at: indexPath.row)
 
-            var myTask = Task(completed: false, deleted: false, description: "", priority: "", title: "", dateCreated: Date(), expectedCompletion: Date(), actualCompletion: Date(), ownedBy: "", taskList: "")
+            var myTask = Task(completed: false, deleted: false, description: "", priority: "", title: "", dateCreated: Date(), expectedCompletion: Date(), actualCompletion: Date(), ownedBy: "", taskList: "", taskListID: 0, taskID: 0)
 
             for t in self.tasks {
                 if name == t.title {
@@ -166,7 +167,7 @@ class MainScreenViewController: UIViewController, UITableViewDataSource, UITable
             }
 
             let c = self.db.collection("Tasks")
-            c.whereField("ownedBy", isEqualTo: self.userEmail).whereField("taskList", isEqualTo: taskList).whereField("title", isEqualTo: name).whereField("deleted", isEqualTo: false).getDocuments() { (querySnap, error) in
+            c.whereField("ownedBy", isEqualTo: self.userEmail).whereField("taskID", isEqualTo: taskID).whereField("taskList", isEqualTo: taskList).whereField("title", isEqualTo: name).whereField("deleted", isEqualTo: false).getDocuments() { (querySnap, error) in
                 if let error = error {
                     print("There was an error getting TaskLists documents: \(error)")
                 } else {
@@ -228,11 +229,12 @@ class MainScreenViewController: UIViewController, UITableViewDataSource, UITable
         let delete = UIContextualAction(style: .normal, title: "Delete") { action, index, completion in
             // do the stuff
             let name = self.tasks[indexPath.row].title
+            let taskID = self.tasks[indexPath.row].taskID
             let taskList = self.tasks[indexPath.row].taskList
             self.tasks.remove(at: indexPath.row)
 
             let c = self.db.collection("Tasks")
-            c.whereField("ownedBy", isEqualTo: self.userEmail).whereField("taskList", isEqualTo: taskList).whereField("title", isEqualTo: name).whereField("deleted", isEqualTo: false).getDocuments() { (querySnap, error) in
+            c.whereField("ownedBy", isEqualTo: self.userEmail).whereField("taskID", isEqualTo: taskID).whereField("taskList", isEqualTo: taskList).whereField("title", isEqualTo: name).whereField("deleted", isEqualTo: false).getDocuments() { (querySnap, error) in
                 if let error = error {
                     print("There was an error getting TaskLists documents: \(error)")
                 } else {
@@ -327,10 +329,12 @@ class MainScreenViewController: UIViewController, UITableViewDataSource, UITable
                     let priority = d.get("priority") as! String
                     let taskList = d.get("taskList") as! String
                     let title = d.get("title") as! String
+                    let taskListID = d.get("taskListID") as! Int
+                    let taskID = d.get("taskID") as! Int
                     
                     if calendar.isDateInToday(expectedCompletion) {
                         print("a date exists")
-                        self.dailyTask = Task(completed: completed, deleted: deleted, description: description, priority: priority, title: title, dateCreated: dateCreated, expectedCompletion: expectedCompletion, actualCompletion: actualCompletion, ownedBy: ownedBy, taskList: taskList)
+                        self.dailyTask = Task(completed: completed, deleted: deleted, description: description, priority: priority, title: title, dateCreated: dateCreated, expectedCompletion: expectedCompletion, actualCompletion: actualCompletion, ownedBy: ownedBy, taskList: taskList, taskListID: taskListID, taskID: taskID)
                         
                         
                         self.tasks.append(self.dailyTask)

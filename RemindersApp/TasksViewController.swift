@@ -17,8 +17,8 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
     @IBOutlet weak var navBarTitle: UINavigationItem!
     var tasks : [Task] = []
     var taskdID : String = ""
-    var myTaskList : TaskList = TaskList(active: true, description: "", fullCompletion: false, name: "", userEmail: "", tasks: [], numTasks: 0, dateCreated: Date())
-    var task : Task = Task(completed: false, deleted: false, description: "", priority: "", title: "", dateCreated: Date(), expectedCompletion: Date(), actualCompletion: Date(), ownedBy: "", taskList: "")
+    var myTaskList : TaskList = TaskList(active: true, description: "", fullCompletion: false, name: "", userEmail: "", tasks: [], numTasks: 0, dateCreated: Date(), taskListID: 0)
+    var task : Task = Task(completed: false, deleted: false, description: "", priority: "", title: "", dateCreated: Date(), expectedCompletion: Date(), actualCompletion: Date(), ownedBy: "", taskList: "", taskListID: 0, taskID: 0)
     let locationManager = CLLocationManager()
     var lat : Double = 0.0
     var lon : Double = 0.0
@@ -93,9 +93,11 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
         let complete = UIContextualAction(style: .normal, title: "Complete") { action, index, completion in
             // do the stuff
             let name = self.tasks[indexPath.row].title
+            let taskID = self.tasks[indexPath.row].taskID
+            let taskListID = self.tasks[indexPath.row].taskID
             self.tasks.remove(at: indexPath.row)
             
-            var myTask = Task(completed: false, deleted: false, description: "", priority: "", title: "", dateCreated: Date(), expectedCompletion: Date(), actualCompletion: Date(), ownedBy: "", taskList: "")
+            var myTask = Task(completed: false, deleted: false, description: "", priority: "", title: "", dateCreated: Date(), expectedCompletion: Date(), actualCompletion: Date(), ownedBy: "", taskList: "", taskListID: 0, taskID: 0)
             
             for t in self.tasks {
                 if name == t.title {
@@ -104,7 +106,7 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
             
             let c = self.db.collection("Tasks")
-            c.whereField("ownedBy", isEqualTo: self.myTaskList.userEmail).whereField("taskList", isEqualTo: self.myTaskList.name).whereField("title", isEqualTo: name).whereField("deleted", isEqualTo: false).getDocuments() { (querySnap, error) in
+            c.whereField("ownedBy", isEqualTo: self.myTaskList.userEmail).whereField("taskList", isEqualTo: self.myTaskList.name).whereField("title", isEqualTo: name).whereField("deleted", isEqualTo: false).whereField("taskID", isEqualTo: taskID).getDocuments() { (querySnap, error) in
                 if let error = error {
                     print("There was an error getting TaskLists documents: \(error)")
                 } else {
@@ -271,10 +273,11 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
         let delete = UIContextualAction(style: .normal, title: "Delete") { action, index, completion in
             // do the stuff
             let name = self.tasks[indexPath.row].title
+            let taskID = self.tasks[indexPath.row].taskID
             self.tasks.remove(at: indexPath.row)
             
             let c = self.db.collection("Tasks")
-            c.whereField("ownedBy", isEqualTo: self.myTaskList.userEmail).whereField("taskList", isEqualTo: self.myTaskList.name).whereField("title", isEqualTo: name).whereField("deleted", isEqualTo: false).getDocuments() { (querySnap, error) in
+            c.whereField("ownedBy", isEqualTo: self.myTaskList.userEmail).whereField("taskList", isEqualTo: self.myTaskList.name).whereField("title", isEqualTo: name).whereField("deleted", isEqualTo: false).whereField("taskID", isEqualTo: taskID).getDocuments() { (querySnap, error) in
                 if let error = error {
                     print("There was an error getting TaskLists documents: \(error)")
                 } else {
@@ -319,7 +322,7 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
     func getMyTasks() {
         tasks = []
         let listCollection = db.collection("Tasks")
-        listCollection.whereField("ownedBy", isEqualTo: myTaskList.userEmail).whereField("taskList", isEqualTo: myTaskList.name).whereField("deleted", isEqualTo: false).whereField("completed", isEqualTo: false).getDocuments() { (querySnap, error) in
+        listCollection.whereField("ownedBy", isEqualTo: myTaskList.userEmail).whereField("taskList", isEqualTo: myTaskList.name).whereField("deleted", isEqualTo: false).whereField("completed", isEqualTo: false).whereField("taskListID", isEqualTo: myTaskList.taskListID).getDocuments() { (querySnap, error) in
             if let error = error {
                 print("There was an error getting TaskLists documents: \(error)")
             } else {
@@ -335,8 +338,10 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
                     let priority = d.get("priority") as! String
                     let taskList = d.get("taskList") as! String
                     let title = d.get("title") as! String
+                    let taskListID = d.get("taskListID") as! Int
+                    let taskID = d.get("taskID") as! Int
                     
-                    self.task = Task(completed: completed, deleted: deleted, description: description, priority: priority, title: title, dateCreated: dateCreated, expectedCompletion: expectedCompletion, actualCompletion: actualCompletion, ownedBy: ownedBy, taskList: taskList)
+                    self.task = Task(completed: completed, deleted: deleted, description: description, priority: priority, title: title, dateCreated: dateCreated, expectedCompletion: expectedCompletion, actualCompletion: actualCompletion, ownedBy: ownedBy, taskList: taskList, taskListID: taskListID, taskID: taskID)
                    
                     
                     self.tasks.append(self.task)
