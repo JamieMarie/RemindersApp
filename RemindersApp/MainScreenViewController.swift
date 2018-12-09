@@ -29,6 +29,7 @@ class MainScreenViewController: UIViewController, UITableViewDataSource, UITable
     let locationManager = CLLocationManager()
     var lat : Double = 0.0
     var lon : Double = 0.0
+    let qAPI = FavQService.getInstance()
 
     var dailyTask : Task = Task(completed: false, deleted: false, description: "", priority: "", title: "", dateCreated: Date(), expectedCompletion: Date(), actualCompletion: Date(), ownedBy: "", taskList: "")
     
@@ -58,6 +59,17 @@ class MainScreenViewController: UIViewController, UITableViewDataSource, UITable
             
         } else {
             print("Not signed in")
+        }
+        
+        qAPI.getQuoteOfTheDay() { (quote) in
+            if let q = quote {
+                DispatchQueue.main.async {
+                    print()
+                    print("somehow entered")
+                    print(q.author)
+                    print(q.quote)
+                }
+            }
         }
         
     }
