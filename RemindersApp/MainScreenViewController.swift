@@ -14,158 +14,287 @@ import FirebaseFirestore
 
 var ref: Database!
 
-class MainScreenViewController: UIViewController {
+class MainScreenViewController: UIViewController, UITableViewDataSource, UITableViewDelegate{
     
     // initalize our database
     let db = Firestore.firestore()
     var doc: DocumentReference!
-    var currentUser : User = User(email: "", firstName: "", lastName: "", id: "", taskLists: [], numTaskLists: 0)
-    var taskList : TaskList = TaskList(active: false, description: "", fullCompletion: false, name: "", userEmail: "", tasks: [], numTasks: 0, dateCreated: Date.distantPast)
-    @IBOutlet weak var todaysTasks: UITableView!
+    @IBOutlet weak var tableView: UITableView!
+    var userEmail : String = ""
+    var tasks : [Task] = []
+    var taskdID : String = ""
+    var dID : String = ""
+    var dailyTask : Task = Task(completed: false, deleted: false, description: "", priority: "", title: "", dateCreated: Date(), expectedCompletion: Date(), actualCompletion: Date(), ownedBy: "", taskList: "")
     
-    @IBOutlet weak var createNewList: UIButton!
+    @IBOutlet weak var taskCompletion: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        createNewList.isHidden = true
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        Auth.auth().addStateDidChangeListener  { (auth, user) in
-            if let user  = user {
-                print("")
-                print("User signed in:  \(user.email)")
-                print("")
-
-            } else  {
-                print("not signed in")
-            }
-        }
+        tableView.dataSource = self
+        tableView.delegate = self
         
-        // if we're seguing from register we will need to call this from somewhere else
-        // will need to look into where else we should call this -> onResume equivalent?
         if Auth.auth().currentUser != nil {
             // User is signed in.
             print("Signed in")
-            
             let user = Auth.auth().currentUser;
+            userEmail = user!.email!
             print("User email:" + user!.email!)
             
-            // now we should also query to see if this user has any task lists
-            doc = db.collection("Users").document(user!.email!)
-            
-            // will need to convert this to a document snapshot but first lets make sure we have everything else working
-            doc.getDocument { (document, error) in
-                if let document = document, document.exists {
-                    let dataDetail = document.data().map(String.init(describing:)) ?? "nil"
-                    print("Doc Data: \(dataDetail)")
-                    
-                    // if let email = dataDetail["email"], let fName = dataDetail[]
-                    var mapValues = [String: Any]()
-                    mapValues = document.data()!
-                    
-                    if let email = mapValues["email"], let fName = mapValues["firstName"], let id = mapValues["id"],let lName = mapValues["lastName"], let tasks = mapValues["taskList"], let numTLists = mapValues["numTaskLists"]{
-                        // now we assign the values to our struct
-                        self.currentUser = User(email: email as! String, firstName: fName as! String, lastName: lName as! String, id: id as! String, taskLists: tasks as! Array<TaskList>, numTaskLists: numTLists as! Int )
-                        
-                        print("Email: \(self.currentUser.email)")
-                    }
-                    
-                    self.checkForLists(user: self.currentUser)
-                    
-                } else {
-                    print("doc doesn't exist")
-                }
-            }
-            
-            // if user has no task lists prompt them to create one
-            // if the user has tasks for today what do we display
             
         } else {
             print("Not signed in")
         }
         
-        if (self.isMovingToParentViewController || self.isBeingPresented){
-            // Controller is being pushed on or presented.
-            self.checkForLists(user: self.currentUser)
-        }
-        else{
-            // Controller is being shown as result of pop/dismiss/unwind.
-            self.checkForLists(user: self.currentUser)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if Auth.auth().currentUser != nil {
+            // User is signed in.
+            print("Signed in")
+            let user = Auth.auth().currentUser;
+            userEmail = user!.email!
+
+            print("User email:" + user!.email!)
+            
+            
+        } else {
+            print("Not signed in")
         }
         
+        getMyTasks()
+        getAllMyTasks()
+        tableView.reloadData()
+        
     }
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "createNewListSegue" {
-//            if let destVC = segue.destination as? CreateNewListViewController {
-//                // opens create new list screen
-//                // will need to create a delegate to send over the current user
-//                destVC.currentUser = self.currentUser
-//            }
-//        } else if segue.identifier == "createNewTaskSegue"{
-//            if let destVC = segue.destination as? CreateNewTaskViewController {
-//                // opens create new list screen
-//                // will need to create a delegate to send over the current user
-//                destVC.currentUser = self.currentUser
-//                destVC.currentTaskList = self.taskList
-//            }
-//        }
-//    }
     
-    @IBAction func createTask(_ sender: Any) {
-        //performSegue(withIdentifier: "createNewTaskSegue", sender: nil)
+    func numberOfSections(in tableView: UITableView) -> Int {
+        // #warning Incomplete implementation, return the number of sections
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // #warning Incomplete implementation, return the number of rows
+        print("Count: \(tasks.count)")
+        return self.tasks.count
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "statCell", for: indexPath) as! StatTableViewCell
+        print("entered")
+        cell.taskTitleLabel.text = self.tasks[indexPath.row].title
+        cell.taskListNameLabel.text = self.tasks[indexPath.row].taskList
+        print(tasks[indexPath.row].title)
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //let name = self.tasks[indexPath.row].title
+
 
     }
-    
-    func checkForLists(user: User) {
-        if (currentUser.numTaskLists == 0) {
-            createNewList.isHidden = false
-            todaysTasks.isHidden = true
-            print("no lists")
-            // the user has no lists
-            // we need to prompt them to create one
-        } else {
-            createNewList.isHidden = true
-            todaysTasks.isHidden = false
-            print("lists")
-            
-            // this  is  used for  testing and will need to be  removed once  more of the  app is  done
-            let taskListsRef = db.collection("TaskLists")
-            
-            // only want  to return 1  list right now
-            let listQuery = taskListsRef.whereField("userEmail", isEqualTo: currentUser.email)
-            .limit(to: 1)
-            
-            listQuery.getDocuments { (qSnap, error) in
-                if let qSnap = qSnap, !qSnap.isEmpty {
-                    //let docList = document.documents.map(docU) ??
-                    for var d in qSnap.documents {
-//                        qSnap.documents[0].data().map(String.init(describing:))  ??  "nil"
-//                        let listDetail = d.data().map(String.init(describing:)) ?? "nil"
-//                        print("Query Data: \(listDetail)")
-                        let active = d.get("active") as! Bool
-                        let description = d.get("description") as! String
-                        let fullCompletion = d.get("fullCompletion") as! Bool
-                        let name = d.get("name") as! String
-                        let userEmail = d.get("userEmail") as! String
-                        let numTasks = d.get("numTasks") as! Int
-                        let dateCreated = d.get("dateCreated") as! Date
-                        
-                        self.taskList = TaskList(active: active, description: description, fullCompletion: fullCompletion, name: name, userEmail: userEmail, tasks: [], numTasks: numTasks, dateCreated: dateCreated)
-                    }
-                } else {
-                    print("no docs")
+
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let complete = UIContextualAction(style: .normal, title: "Complete") { action, index, completion in
+            // do the stuff
+            let name = self.tasks[indexPath.row].title
+            let taskList = self.tasks[indexPath.row].taskList
+            self.tasks.remove(at: indexPath.row)
+
+            var myTask = Task(completed: false, deleted: false, description: "", priority: "", title: "", dateCreated: Date(), expectedCompletion: Date(), actualCompletion: Date(), ownedBy: "", taskList: "")
+
+            for t in self.tasks {
+                if name == t.title {
+                    myTask = t
                 }
-                
             }
 
+            let c = self.db.collection("Tasks")
+            c.whereField("ownedBy", isEqualTo: self.userEmail).whereField("taskList", isEqualTo: taskList).whereField("title", isEqualTo: name).whereField("deleted", isEqualTo: false).getDocuments() { (querySnap, error) in
+                if let error = error {
+                    print("There was an error getting TaskLists documents: \(error)")
+                } else {
+                    for d in querySnap!.documents {
+                        // get the data sweetie
+                        self.taskdID = d.documentID
+                        print("Successfully found doc \(self.taskdID)")
+                        //print(taskdID)
+
+                        self.db.collection("Tasks").document(self.taskdID).updateData([
+                            "completed": true,
+                            "actualCompletion": Date()]) { error in
+                                if let error = error {
+                                    print("Error updating: \(error)")
+                                } else {
+                                    print("successful update")
+                                }
+                        }
+
+                    }
+                }
+            }
+
+            // upon completion we need to create a new post
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "MM-dd-yyyy HH:mm:ss"
+            let myDate = dateFormatter.string(from: Date())
+
+            let postDoc = self.db.collection("Posts").document()
+            let postData : [String : Any] = [
+                "content" : "Completed \(name) on \(myDate)",
+                "userEmail" : self.userEmail,
+                "datePosted" : Date(),
+                "postType" : "CompletedTask",
+                "taskName" : name,
+                "taskListName" : taskList
+            ]
+
+            postDoc.setData(postData) { (error) in
+                if let error = error {
+                    print("Error setting data: \(error.localizedDescription)")
+                } else {
+                    print("Data was saved")
+                }
+            }
+
+
+            tableView.deleteRows(at: [indexPath], with: .automatic)  //includes updating UI so reloading is not necessary
+
+        }
+        complete.backgroundColor = .green
+        return UISwipeActionsConfiguration(actions: [complete])
+
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let delete = UIContextualAction(style: .normal, title: "Delete") { action, index, completion in
+            // do the stuff
+            let name = self.tasks[indexPath.row].title
+            let taskList = self.tasks[indexPath.row].taskList
+            self.tasks.remove(at: indexPath.row)
+
+            let c = self.db.collection("Tasks")
+            c.whereField("ownedBy", isEqualTo: self.userEmail).whereField("taskList", isEqualTo: taskList).whereField("title", isEqualTo: name).whereField("deleted", isEqualTo: false).getDocuments() { (querySnap, error) in
+                if let error = error {
+                    print("There was an error getting TaskLists documents: \(error)")
+                } else {
+                    for d in querySnap!.documents {
+                        // get the data sweetie
+                        self.taskdID = d.documentID
+                        print("Successfully found doc \(self.taskdID)")
+                        //print(taskdID)
+
+                        self.db.collection("Tasks").document(self.taskdID).updateData([
+                            "deleted": true]) { error in
+                                if let error = error {
+                                    print("Error updating: \(error)")
+                                } else {
+                                    print("successful update")
+                                }
+                        }
+
+                    }
+                }
+            }
+
+            tableView.deleteRows(at: [indexPath], with: .automatic)  //includes updating UI so reloading is not necessary
+
+        }
+        delete.backgroundColor = .red
+        return UISwipeActionsConfiguration(actions: [delete])
+    }
+    
+    func getAllMyTasks() {
+        var totalCount : Int = 0
+        var completedCount : Int = 0
+        
+        let calendar = Calendar.current
+        
+        db.collection("Tasks").whereField("ownedBy", isEqualTo: userEmail).whereField("deleted", isEqualTo: false).getDocuments() { (querySnap, error) in
+            if let error = error {
+                print("Error: \(error)")
+            } else {
+                for d in querySnap!.documents {
+                    let completed = d.get("completed") as! Bool
+                    let expectedCompletion = d.get("expectedCompletion") as! Date
+                    let actualCompletion = d.get("actualCompletion") as! Date
+                    
+                    if (calendar.isDateInToday(expectedCompletion)) {
+                        totalCount += 1
+                        if((calendar.isDateInToday(actualCompletion) || (!calendar.isDateInToday(actualCompletion) && actualCompletion < expectedCompletion)) && completed == true) {
+                            completedCount += 1
+                            
+                        }
+                        
+                    }
+                    
+                }
+                
+                var final : Double  = (Double(completedCount) / Double(totalCount)) * 100
+                print(completedCount)
+                print(totalCount)
+                print(completedCount/totalCount * 100)
+                self.taskCompletion.text = "\(final)%"
+                
+            }
+            
         }
     }
-    
-    @IBAction func createNewListPressed(_ sender: Any) {
-        //performSegue(withIdentifier: "createNewListSegue", sender: nil)
+   
+    // query for tasks
+    func getMyTasks() {
+        print()
+        print("THIS FUNCTION WAS CALLED")
+        print()
+        tasks = []
+        let calendar = Calendar.current
+        let listCollection = db.collection("Tasks")
+        listCollection.whereField("ownedBy", isEqualTo: userEmail).whereField("deleted", isEqualTo: false).whereField("completed", isEqualTo: false).getDocuments() { (querySnap, error) in
+            if let error = error {
+                print("There was an error getting TaskLists documents: \(error)")
+            } else {
+                for d in querySnap!.documents {
+                    print("a doc exists")
+                    // get the data sweetie
+                    let actualCompletion = d.get("actualCompletion") as! Date
+                    let completed = d.get("completed") as! Bool
+                    let deleted = d.get("deleted") as! Bool
+                    let dateCreated = d.get("dateCreated") as! Date
+                    let description = d.get("description") as! String
+                    let expectedCompletion = d.get("expectedCompletion") as! Date
+                    let ownedBy = d.get("ownedBy") as! String
+                    let priority = d.get("priority") as! String
+                    let taskList = d.get("taskList") as! String
+                    let title = d.get("title") as! String
+                    
+                    if calendar.isDateInToday(expectedCompletion) {
+                        print("a date exists")
+                        self.dailyTask = Task(completed: completed, deleted: deleted, description: description, priority: priority, title: title, dateCreated: dateCreated, expectedCompletion: expectedCompletion, actualCompletion: actualCompletion, ownedBy: ownedBy, taskList: taskList)
+                        
+                        
+                        self.tasks.append(self.dailyTask)
+                        print("Count before leaving loop: \(self.tasks.count)")
+                    }
+                   
+                }
+            }
+            self.tableView.reloadData()
+        }
+        print("num task Lists: \(self.tasks.count)")
+        //return self.taskLists.count
+        
     }
     
+    
+    
+    
+    
+
+
 
 }

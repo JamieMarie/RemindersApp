@@ -16,13 +16,19 @@ struct User {
     var id: String
     var taskLists: Array<TaskList>
     var numTaskLists: Int
-    init(email:String, firstName:String, lastName:String, id:String, taskLists: Array<TaskList>, numTaskLists: Int) {
+    var streakDate : Date
+    var streakNum : Int
+    var friends : [String]
+    init(email:String, firstName:String, lastName:String, id:String, taskLists: Array<TaskList>, numTaskLists: Int, streakDate: Date, streakNum: Int, friends: [String]) {
         self.email = email
         self.firstName = firstName
         self.lastName = lastName
         self.id = id
         self.taskLists = taskLists
         self.numTaskLists = numTaskLists
+        self.streakDate = streakDate
+        self.streakNum = streakNum
+        self.friends = friends
     }
 }
 

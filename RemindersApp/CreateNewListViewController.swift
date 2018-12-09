@@ -15,7 +15,7 @@ class CreateNewListViewController: UIViewController {
     @IBOutlet weak var descriptionField: UITextField!
     @IBOutlet weak var titleField: UITextField!
     
-    var currentUser : User = User(email: "", firstName: "", lastName: "", id: "", taskLists: [], numTaskLists: 0)
+    var currentUser : User = User(email: "", firstName: "", lastName: "", id: "", taskLists: [], numTaskLists: 0, streakDate: Date.distantFuture, streakNum: 0, friends: [])
     var userEmail : String!
     var docID : String = ""
     var doc: DocumentReference!

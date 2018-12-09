@@ -28,6 +28,8 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
         tableView.dataSource = self
         tableView.delegate = self
         navBarTitle.title = myTaskList.name
+        
+        print(Date.distantFuture)
 
         // Do any additional setup after loading the view.
     }
@@ -73,6 +75,14 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
             let name = self.tasks[indexPath.row].title
             self.tasks.remove(at: indexPath.row)
             
+            var myTask = Task(completed: false, deleted: false, description: "", priority: "", title: "", dateCreated: Date(), expectedCompletion: Date(), actualCompletion: Date(), ownedBy: "", taskList: "")
+            
+            for t in self.tasks {
+                if name == t.title {
+                    myTask = t
+                }
+            }
+            
             let c = self.db.collection("Tasks")
             c.whereField("ownedBy", isEqualTo: self.myTaskList.userEmail).whereField("taskList", isEqualTo: self.myTaskList.name).whereField("title", isEqualTo: name).whereField("deleted", isEqualTo: false).getDocuments() { (querySnap, error) in
                 if let error = error {
@@ -85,7 +95,8 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
                         //print(taskdID)
                         
                         self.db.collection("Tasks").document(self.taskdID).updateData([
-                            "completed": true]) { error in
+                            "completed": true,
+                            "actualCompletion": Date()]) { error in
                                 if let error = error {
                                     print("Error updating: \(error)")
                                 } else {
@@ -97,6 +108,32 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
                 }
             }
             
+            // upon completion we need to create a new post
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "MM-dd-yyyy HH:mm:ss"
+            let myDate = dateFormatter.string(from: Date())
+            
+            let postDoc = self.db.collection("Posts").document()
+            let postData : [String : Any] = [
+               "content" : "Completed \(name) on \(myDate)",
+                "userEmail" : self.myTaskList.userEmail,
+                "datePosted" : Date(),
+                "postType" : "CompletedTask",
+                "taskName" : name,
+                "taskListName" : self.myTaskList.name
+            ]
+            
+            postDoc.setData(postData) { (error) in
+                if let error = error {
+                    print("Error setting data: \(error.localizedDescription)")
+                } else {
+                    print("Data was saved")
+                }
+            }
+            
+            self.createStreakPost()
+            
+            
             tableView.deleteRows(at: [indexPath], with: .automatic)  //includes updating UI so reloading is not necessary
             
         }
@@ -104,6 +141,107 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
         return UISwipeActionsConfiguration(actions: [complete])
 
     }
+    
+    func createStreakPost() {
+        let calendar = Calendar.current
+        var completedCount = 0
+        var totalCount = 0
+        let taskCollection = self.db.collection("Tasks")
+        taskCollection.whereField("ownedBy", isEqualTo: self.myTaskList.userEmail).whereField("deleted", isEqualTo: false).getDocuments() { (querySnap, error) in
+            if let error = error {
+                print("Error")
+            } else {
+                for d in querySnap!.documents {
+                    let completed = d.get("completed") as! Bool
+                    let expectedCompletion = d.get("expectedCompletion") as! Date
+                    let actualCompletion = d.get("actualCompletion") as! Date
+                    
+                    if (calendar.isDateInToday(expectedCompletion)) {
+                        totalCount += 1
+                        if((calendar.isDateInToday(actualCompletion) || (!calendar.isDateInToday(actualCompletion) && actualCompletion < expectedCompletion)) && completed == true) {
+                            completedCount += 1
+                            
+                        }
+                        
+                    }
+                    
+                }
+                
+                // now get current user
+                var createPost = false
+                //var newDate = Date()
+                let userCollection = self.db.collection("Users")
+                userCollection.whereField("email", isEqualTo: self.myTaskList.userEmail).getDocuments() { (querySnap, error) in
+                    if let error = error {
+                        print("Error")
+                    } else {
+                        for d in querySnap!.documents {
+                            let streakDate = d.get("streakDate") as! Date
+                            let streakNum = d.get("streakNum") as! Int
+                            var myDate = streakDate
+                            var id = d.documentID
+                            var newNum : Int = streakNum
+
+                            
+                            if (calendar.isDateInYesterday(streakDate) && completedCount == totalCount) {
+                                newNum = 0
+                                newNum = streakNum + 1
+                                createPost = true
+                                myDate = Date()
+                            }
+                            if (streakDate == Date.distantFuture && completedCount == totalCount) {
+                                newNum = 0
+                                newNum = streakNum + 1
+                                myDate = Date()
+                            }
+                            
+                            if (completedCount != totalCount && !calendar.isDateInYesterday(streakDate) && !calendar.isDateInYesterday(streakDate)) {
+                                newNum = 0
+                                myDate = Date()
+                            }
+                            
+                            // now update user
+                            self.db.collection("Users").document(id).updateData([
+                                "streakDate": myDate, "streakNum": newNum]) { error in
+                                    if let error = error {
+                                        print("ERROR")
+                                    } else {
+                                        print("data updated")
+                                    }
+                            }
+                            
+                            if createPost {
+                                let dateFormatter = DateFormatter()
+                                dateFormatter.dateFormat = "MM-dd-yyyy HH:mm:ss"
+                                let myDate = dateFormatter.string(from: Date())
+                                
+                                let postDoc = self.db.collection("Posts").document()
+                                let postData : [String : Any] = [
+                                    "content" : "\(newNum) day streak!",
+                                    "userEmail" : self.myTaskList.userEmail,
+                                    "datePosted" : Date(),
+                                    "postType" : "Streak",
+                                    "taskName" : "",
+                                    "taskListName" : ""
+                                ]
+                                
+                                postDoc.setData(postData) { (error) in
+                                    if let error = error {
+                                        print("Error setting data: \(error.localizedDescription)")
+                                    } else {
+                                        print("Data was saved")
+                                    }
+                                }                            }
+                            
+                        }
+                    }
+                    
+                }
+            }
+        }
+
+    }
+    
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let delete = UIContextualAction(style: .normal, title: "Delete") { action, index, completion in
             // do the stuff
@@ -140,46 +278,6 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
         delete.backgroundColor = .red
         return UISwipeActionsConfiguration(actions: [delete])
     }
-    
-//    func tableView(_ tableView: UITableView, editActionsForRowAt: IndexPath) -> [UITableViewRowAction]? {
-//        let complete = UITableViewRowAction(style: )
-//        return []
-//    }
-//
-//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-//
-//        if (editingStyle == .delete) {
-//            let name = tasks[indexPath.row].title
-//            tasks.remove(at: indexPath.row)
-//
-//            let c = self.db.collection("Tasks")
-//            c.whereField("ownedBy", isEqualTo: myTaskList.userEmail).whereField("taskList", isEqualTo: myTaskList.name).whereField("title", isEqualTo: name).whereField("deleted", isEqualTo: false).getDocuments() { (querySnap, error) in
-//                if let error = error {
-//                    print("There was an error getting TaskLists documents: \(error)")
-//                } else {
-//                    for d in querySnap!.documents {
-//                        // get the data sweetie
-//                        self.taskdID = d.documentID
-//                        print("Successfully found doc \(self.taskdID)")
-//                        //print(taskdID)
-//
-//                        self.db.collection("Tasks").document(self.taskdID).updateData([
-//                            "deleted": true]) { error in
-//                                if let error = error {
-//                                    print("Error updating: \(error)")
-//                                } else {
-//                                    print("successful update")
-//                                }
-//                        }
-//
-//                    }
-//                }
-//            }
-//
-//            tableView.deleteRows(at: [indexPath], with: .automatic)  //includes updating UI so reloading is not necessary
-//        }
-//    }
-
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "createNewTaskSegue" {

@@ -27,6 +27,11 @@
 		75C78C8521BA2E9700FC2AFF /* ReminderListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C78C8421BA2E9700FC2AFF /* ReminderListTableViewCell.swift */; };
 		75FFDC8321BB78660089FC88 /* TasksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75FFDC8221BB78660089FC88 /* TasksViewController.swift */; };
 		75FFDC8521BB8D8F0089FC88 /* TaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75FFDC8421BB8D8F0089FC88 /* TaskTableViewCell.swift */; };
+		75FFDC8721BC50B90089FC88 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75FFDC8621BC50B90089FC88 /* Post.swift */; };
+		75FFDC8921BC893F0089FC88 /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75FFDC8821BC893F0089FC88 /* PostTableViewCell.swift */; };
+		75FFDC8B21BC89740089FC88 /* TimelineTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75FFDC8A21BC89740089FC88 /* TimelineTableViewController.swift */; };
+		75FFDC8D21BC97570089FC88 /* AddFriendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75FFDC8C21BC97570089FC88 /* AddFriendViewController.swift */; };
+		75FFDC8F21BCBAFD0089FC88 /* StatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75FFDC8E21BCBAFD0089FC88 /* StatTableViewCell.swift */; };
 		84FCF8D72193E08300D4DEFD /* MainScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FCF8D62193E08300D4DEFD /* MainScreenViewController.swift */; };
 		84FCF8D92193E23600D4DEFD /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FCF8D82193E23600D4DEFD /* SignUpViewController.swift */; };
 		84FCF8DE2193F0C600D4DEFD /* Background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84FCF8DB2193F0C500D4DEFD /* Background.jpg */; };
@@ -82,6 +87,11 @@
 		75C78C8421BA2E9700FC2AFF /* ReminderListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderListTableViewCell.swift; sourceTree = "<group>"; };
 		75FFDC8221BB78660089FC88 /* TasksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksViewController.swift; sourceTree = "<group>"; };
 		75FFDC8421BB8D8F0089FC88 /* TaskTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTableViewCell.swift; sourceTree = "<group>"; };
+		75FFDC8621BC50B90089FC88 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		75FFDC8821BC893F0089FC88 /* PostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
+		75FFDC8A21BC89740089FC88 /* TimelineTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineTableViewController.swift; sourceTree = "<group>"; };
+		75FFDC8C21BC97570089FC88 /* AddFriendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFriendViewController.swift; sourceTree = "<group>"; };
+		75FFDC8E21BCBAFD0089FC88 /* StatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatTableViewCell.swift; sourceTree = "<group>"; };
 		84FCF8D62193E08300D4DEFD /* MainScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenViewController.swift; sourceTree = "<group>"; };
 		84FCF8D82193E23600D4DEFD /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		84FCF8DB2193F0C500D4DEFD /* Background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Background.jpg; sourceTree = "<group>"; };
@@ -176,6 +186,7 @@
 				84FCF8D62193E08300D4DEFD /* MainScreenViewController.swift */,
 				84FF7D282190EE6C00AFCD0D /* User.swift */,
 				750D7011219CD752002A3F9F /* Task.swift */,
+				75FFDC8621BC50B90089FC88 /* Post.swift */,
 				750D7013219CE4C3002A3F9F /* TaskList.swift */,
 				84FCF8D82193E23600D4DEFD /* SignUpViewController.swift */,
 				751DE0E72180B3830051817D /* Main.storyboard */,
@@ -189,6 +200,10 @@
 				75C78C8421BA2E9700FC2AFF /* ReminderListTableViewCell.swift */,
 				75FFDC8221BB78660089FC88 /* TasksViewController.swift */,
 				75FFDC8421BB8D8F0089FC88 /* TaskTableViewCell.swift */,
+				75FFDC8821BC893F0089FC88 /* PostTableViewCell.swift */,
+				75FFDC8A21BC89740089FC88 /* TimelineTableViewController.swift */,
+				75FFDC8C21BC97570089FC88 /* AddFriendViewController.swift */,
+				75FFDC8E21BCBAFD0089FC88 /* StatTableViewCell.swift */,
 			);
 			path = RemindersApp;
 			sourceTree = "<group>";
@@ -458,10 +473,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				750D7014219CE4C3002A3F9F /* TaskList.swift in Sources */,
+				75FFDC8F21BCBAFD0089FC88 /* StatTableViewCell.swift in Sources */,
 				75FFDC8521BB8D8F0089FC88 /* TaskTableViewCell.swift in Sources */,
+				75FFDC8921BC893F0089FC88 /* PostTableViewCell.swift in Sources */,
 				751DE0E62180B3830051817D /* SignInViewController.swift in Sources */,
 				751DE0E42180B3830051817D /* AppDelegate.swift in Sources */,
 				752D43E421AF12360078C49D /* CreateNewTaskViewController.swift in Sources */,
+				75FFDC8721BC50B90089FC88 /* Post.swift in Sources */,
 				84FF7D292190EE6C00AFCD0D /* User.swift in Sources */,
 				75FFDC8321BB78660089FC88 /* TasksViewController.swift in Sources */,
 				75C78C8221BA0ED300FC2AFF /* ReminderListTableViewController.swift in Sources */,
@@ -469,6 +487,8 @@
 				84FCF8D72193E08300D4DEFD /* MainScreenViewController.swift in Sources */,
 				750D7012219CD752002A3F9F /* Task.swift in Sources */,
 				84FCF8D92193E23600D4DEFD /* SignUpViewController.swift in Sources */,
+				75FFDC8D21BC97570089FC88 /* AddFriendViewController.swift in Sources */,
+				75FFDC8B21BC89740089FC88 /* TimelineTableViewController.swift in Sources */,
 				754E460721A369F300B0BDF7 /* CreateNewListViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

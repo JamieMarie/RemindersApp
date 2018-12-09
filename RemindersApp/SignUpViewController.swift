@@ -65,7 +65,10 @@ class SignUpViewController: UIViewController {
                                 "id" : "",
                                 "lastName" : "",
                                 "taskList" : [],
-                                "numTaskLists": 0
+                                "numTaskLists": 0,
+                                "streakDate": Date.distantFuture,
+                                "streakNum": 0,
+                                "friends": [emailData]
                             ]
                             self.ref = self.db.document("Users/\(emailData)")
                             
