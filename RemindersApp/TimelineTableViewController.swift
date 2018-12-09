@@ -14,7 +14,7 @@ class TimelineTableViewController: UITableViewController {
     var docID : String = ""
     var posts : [Post] = []
     var userEmail : String = ""
-    var currentPost : Post = Post(content: "", userEmail: "", datePosted: Date(), postType: "", taskListName: "", taskName: "")
+    var currentPost : Post = Post(content: "", userEmail: "", datePosted: Date(), postType: "", taskListName: "", taskName: "", lat: 0.0, lon: 0.0)
     let db = Firestore.firestore()
 
     override func viewDidLoad() {
@@ -66,10 +66,12 @@ class TimelineTableViewController: UITableViewController {
                             let postType = d.get("postType") as! String
                             let taskName = d.get("taskName") as! String
                             let taskListName = d.get("taskListName") as! String
+                            let lon = d.get("lon") as! Double
+                            let lat = d.get("lat") as! Double
                             
                             // check here if userEmail is in friends
                             if friends.contains(userEmail) {
-                                self.currentPost = Post(content: content, userEmail: userEmail, datePosted: datePosted, postType: postType, taskListName: taskListName, taskName: taskName)
+                                self.currentPost = Post(content: content, userEmail: userEmail, datePosted: datePosted, postType: postType, taskListName: taskListName, taskName: taskName, lat: lat, lon: lon)
                                 self.posts.append(self.currentPost)
                             }
                             

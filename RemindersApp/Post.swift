@@ -14,14 +14,19 @@ struct Post {
     var postType : String
     var taskListName : String
     var taskName : String
+    var lat : Double
+    var lon : Double
     
-    init(content: String, userEmail: String, datePosted: Date, postType: String, taskListName: String, taskName: String) {
+    init(content: String, userEmail: String, datePosted: Date, postType: String, taskListName: String, taskName: String, lat : Double, lon : Double) {
         self.content = content
         self.userEmail = userEmail
         self.datePosted = datePosted
         self.postType = postType
         self.taskName = taskName
         self.taskListName = taskListName
+        self.lat = lat
+        self.lon = lon
+        
     }
     
 }

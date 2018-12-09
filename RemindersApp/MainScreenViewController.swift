@@ -11,10 +11,12 @@ import Firebase
 // may need to clear cache to install: rm -rf ~/Library/Caches/CocoaPods
 // then run pod install
 import FirebaseFirestore
+import MapKit
+import CoreLocation
 
 var ref: Database!
 
-class MainScreenViewController: UIViewController, UITableViewDataSource, UITableViewDelegate{
+class MainScreenViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate{
     
     // initalize our database
     let db = Firestore.firestore()
@@ -24,14 +26,27 @@ class MainScreenViewController: UIViewController, UITableViewDataSource, UITable
     var tasks : [Task] = []
     var taskdID : String = ""
     var dID : String = ""
+    let locationManager = CLLocationManager()
+    var lat : Double = 0.0
+    var lon : Double = 0.0
+
     var dailyTask : Task = Task(completed: false, deleted: false, description: "", priority: "", title: "", dateCreated: Date(), expectedCompletion: Date(), actualCompletion: Date(), ownedBy: "", taskList: "")
     
     @IBOutlet weak var taskCompletion: UILabel!
     
     override func viewDidLoad() {
+        self.locationManager.requestAlwaysAuthorization()
+        self.locationManager.requestWhenInUseAuthorization()
+        
         super.viewDidLoad()
         tableView.dataSource = self
         tableView.delegate = self
+        
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+        }
         
         if Auth.auth().currentUser != nil {
             // User is signed in.
@@ -66,6 +81,12 @@ class MainScreenViewController: UIViewController, UITableViewDataSource, UITable
         getAllMyTasks()
         tableView.reloadData()
         
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let locval : CLLocationCoordinate2D = manager.location!.coordinate
+        lon = locval.longitude
+        lat = locval.latitude
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -151,7 +172,9 @@ class MainScreenViewController: UIViewController, UITableViewDataSource, UITable
                 "datePosted" : Date(),
                 "postType" : "CompletedTask",
                 "taskName" : name,
-                "taskListName" : taskList
+                "taskListName" : taskList,
+                "lat" : self.lat,
+                "lon" : self.lon
             ]
 
             postDoc.setData(postData) { (error) in
@@ -235,10 +258,13 @@ class MainScreenViewController: UIViewController, UITableViewDataSource, UITable
                     
                 }
                 
-                var final : Double  = (Double(completedCount) / Double(totalCount)) * 100
-                print(completedCount)
-                print(totalCount)
-                print(completedCount/totalCount * 100)
+                var final : Double = 0.0
+                if (completedCount > 0 && totalCount > 0) {
+                    final = (Double(completedCount) / Double(totalCount)) * 100
+                }
+                //print(completedCount)
+                //print(totalCount)
+                //print(completedCount/totalCount * 100)
                 self.taskCompletion.text = "\(final)%"
                 
             }
@@ -289,12 +315,5 @@ class MainScreenViewController: UIViewController, UITableViewDataSource, UITable
         //return self.taskLists.count
         
     }
-    
-    
-    
-    
-    
-
-
 
 }

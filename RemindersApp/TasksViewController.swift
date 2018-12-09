@@ -9,14 +9,19 @@
 import UIKit
 import Firebase
 import FirebaseFirestore
+import MapKit
+import CoreLocation
 
-class TasksViewController: UIViewController, UITableViewDataSource, UITableViewDelegate{
+class TasksViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate{
     
     @IBOutlet weak var navBarTitle: UINavigationItem!
     var tasks : [Task] = []
     var taskdID : String = ""
     var myTaskList : TaskList = TaskList(active: true, description: "", fullCompletion: false, name: "", userEmail: "", tasks: [], numTasks: 0, dateCreated: Date())
     var task : Task = Task(completed: false, deleted: false, description: "", priority: "", title: "", dateCreated: Date(), expectedCompletion: Date(), actualCompletion: Date(), ownedBy: "", taskList: "")
+    let locationManager = CLLocationManager()
+    var lat : Double = 0.0
+    var lon : Double = 0.0
 
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
@@ -24,6 +29,15 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.locationManager.requestAlwaysAuthorization()
+        self.locationManager.requestWhenInUseAuthorization()
+        
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+        }
         descriptionLabel.text = myTaskList.description
         tableView.dataSource = self
         tableView.delegate = self
@@ -38,6 +52,12 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
         getMyTasks()
         tableView.reloadData()
         
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let locval : CLLocationCoordinate2D = manager.location!.coordinate
+        lon = locval.longitude
+        lat = locval.latitude
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -120,7 +140,10 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
                 "datePosted" : Date(),
                 "postType" : "CompletedTask",
                 "taskName" : name,
-                "taskListName" : self.myTaskList.name
+                "taskListName" : self.myTaskList.name,
+                "lat" : self.lat,
+                "lon" : self.lon
+                
             ]
             
             postDoc.setData(postData) { (error) in
@@ -222,7 +245,9 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
                                     "datePosted" : Date(),
                                     "postType" : "Streak",
                                     "taskName" : "",
-                                    "taskListName" : ""
+                                    "taskListName" : "",
+                                    "lat": 0.0,
+                                    "lon": 0.0
                                 ]
                                 
                                 postDoc.setData(postData) { (error) in
