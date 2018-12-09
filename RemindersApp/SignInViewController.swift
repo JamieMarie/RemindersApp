@@ -35,12 +35,13 @@ class SignInViewController: UIViewController {
                         print("Signin:  \(user?.user.email!)")
                         print("")
                         loginSuccess = true
+                        self.dismiss(animated: true, completion: nil)
                     }
                 }
             }
         }
         if loginSuccess == true {
-            performSegue(withIdentifier: "Login", sender: nil)
+            //performSegue(withIdentifier: "Login", sender: nil)
         }
         
     }
@@ -50,11 +51,11 @@ class SignInViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "loginSegue" {
-            if let destVC = segue.destination.childViewControllers[0] as? MainScreenViewController {
-                // open the main screen
-            }
-        }
+//        if segue.identifier == "loginSegue" {
+//            if let destVC = segue.destination.childViewControllers[0] as? MainScreenViewController {
+//                // open the main screen
+//            }
+//        }
         if segue.identifier == "registerNewUserSegue" {
             if let destVC = segue.destination as? SignUpViewController {
                 // open the sign up screen

@@ -19,7 +19,7 @@ var ref: Database!
 class MainScreenViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate{
     
     // initalize our database
-    let db = Firestore.firestore()
+    lazy var db = Firestore.firestore()
     var doc: DocumentReference!
     @IBOutlet weak var tableView: UITableView!
     var userEmail : String = ""
@@ -114,6 +114,24 @@ class MainScreenViewController: UIViewController, UITableViewDataSource, UITable
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60
+    }
+    @IBAction func signOutButton(_ sender: Any) {
+        let signOutPrompt = UIAlertController(title: "Sign Out", message: "Are you sure you want to sign out?", preferredStyle: UIAlertControllerStyle.alert)
+        
+        signOutPrompt.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+            do {
+                try Auth.auth().signOut()
+                print("Logged out")
+            } catch let signOutError as NSError {
+                print ("Error signing out: %@", signOutError)
+            }
+        }))
+        
+        signOutPrompt.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+            print("Sign out cancelled")
+        }))
+        
+        present(signOutPrompt, animated: true, completion: nil)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
