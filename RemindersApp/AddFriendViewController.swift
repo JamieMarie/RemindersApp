@@ -19,6 +19,7 @@ class AddFriendViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         userEmail = Auth.auth().currentUser!.email!
+        print("EMAIL: " + userEmail)
         let detectTouch = UITapGestureRecognizer(target: self, action:
             #selector(self.dismissKeyboard))
         self.view.addGestureRecognizer(detectTouch)
@@ -35,12 +36,16 @@ class AddFriendViewController: UIViewController {
         var dID : String = ""
         if (addFriendTextField.text != "") {
             var name = addFriendTextField.text!
+            print()
+            print("STOP HERE")
+            print(name)
             db.collection("Users").whereField("email", isEqualTo: userEmail).getDocuments() { (querySnap, error) in
                 if let error = error {
                     print("Error: \(error)")
                 } else {
                     for d in querySnap!.documents {
                         dID = d.documentID
+                        print("found document")
                     }
                     
                     self.db.collection("Users").document(dID).updateData(["friends" : FieldValue.arrayUnion([name])]) { error in
