@@ -33,6 +33,7 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         getCurrentUser()
+        self.view.backgroundColor = BACKGROUND_COLOR
         
         self.locationManager.requestAlwaysAuthorization()
         self.locationManager.requestWhenInUseAuthorization()
