@@ -22,6 +22,8 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
     let locationManager = CLLocationManager()
     var lat : Double = 0.0
     var lon : Double = 0.0
+    var lName : String = ""
+    var fName : String = ""
 
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
@@ -29,6 +31,7 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        getCurrentUser()
         
         self.locationManager.requestAlwaysAuthorization()
         self.locationManager.requestWhenInUseAuthorization()
@@ -63,6 +66,22 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
     func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
+    }
+    
+    func getCurrentUser() {
+        db.collection("Users").whereField("email", isEqualTo: myTaskList.userEmail).getDocuments() { querySnap, error in
+            if let error = error {
+                print("error finding user")
+            } else {
+                for d in querySnap!.documents {
+                    self.fName = d.get("firstName") as! String
+                    self.lName = d.get("lastName") as! String
+                    
+                    
+                }
+            }
+            
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -134,7 +153,7 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "MM-dd-yyyy HH:mm:ss"
             let myDate = dateFormatter.string(from: Date())
-            
+           
             let postDoc = self.db.collection("Posts").document()
             let postData : [String : Any] = [
                "content" : "Completed \(name) on \(myDate)",
@@ -144,7 +163,8 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
                 "taskName" : name,
                 "taskListName" : self.myTaskList.name,
                 "lat" : self.lat,
-                "lon" : self.lon
+                "lon" : self.lon,
+                "userName" : self.fName + " " + self.lName
                 
             ]
             
@@ -249,7 +269,9 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
                                     "taskName" : "",
                                     "taskListName" : "",
                                     "lat": 0.0,
-                                    "lon": 0.0
+                                    "lon": 0.0,
+                                    "userName" : self.fName + " " + self.lName
+
                                 ]
                                 
                                 postDoc.setData(postData) { (error) in
@@ -322,6 +344,7 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
     func getMyTasks() {
         tasks = []
         let listCollection = db.collection("Tasks")
+        
         listCollection.whereField("ownedBy", isEqualTo: myTaskList.userEmail).whereField("taskList", isEqualTo: myTaskList.name).whereField("deleted", isEqualTo: false).whereField("completed", isEqualTo: false).whereField("taskListID", isEqualTo: myTaskList.taskListID).getDocuments() { (querySnap, error) in
             if let error = error {
                 print("There was an error getting TaskLists documents: \(error)")

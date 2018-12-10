@@ -58,6 +58,8 @@ class SignUpViewController: UIViewController {
         var count = 0
         if _email.text != "" {
             // TODO: CHECK EMAIL DOES NOT ALREADY EXIST
+            var random = arc4random_uniform(6) + 1
+            var imageString = "Avatar\(random)"
             
             db.collection("Users").whereField("email", isEqualTo: _email.text!).getDocuments()  { querySnap, error in
                 if let error = error {
@@ -92,7 +94,7 @@ class SignUpViewController: UIViewController {
                             guard let emailData = self._email.text, !emailData.isEmpty else { return }
                             
                             let userData : [String: Any] = [
-                                "email" : emailData,
+                                "email" : emailData.lowercased(),
                                 "firstName" : "",
                                 "id" : "",
                                 "lastName" : "",
@@ -100,9 +102,10 @@ class SignUpViewController: UIViewController {
                                 "numTaskLists": 0,
                                 "streakDate": Date.distantFuture,
                                 "streakNum": 0,
-                                "friends": [emailData]
+                                "friends": [emailData.lowercased()],
+                                "profilePic": imageString
                             ]
-                            self.ref = self.db.document("Users/\(emailData)")
+                            self.ref = self.db.collection("Users").document()
                             
                             self.ref.setData(userData) { (error) in
                                 if let error = error {
@@ -137,7 +140,6 @@ class SignUpViewController: UIViewController {
         }
         if registerSuccess == true {
 
-           self.performSegue(withIdentifier: "finishRegistrationSegue", sender: self)
         }
     }
     
@@ -145,26 +147,14 @@ class SignUpViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-//    override func shouldPerformSegue(identifier: String, sender: Any?) -> Bool {
-//        //super.shouldPerformSegue()
-//        if identifier == "finishRegistrationSegue"{
-//            if p == false {
-//                //fire an alert controller about the error
-//                return false
-//            }
-//        }
-//
-//        //Continue with the segue
-//        return true
-//    }
+
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "finishRegistrationSegue" {
-            if let destVC = segue.destination.childViewControllers[0] as? MainScreenViewController {
+        if segue.identifier == "createUserSegue" {
+            if let destVC = segue.destination as? CreateUserProfileViewController {
                 // open the main screen
-                if p == false {
-                    return
-                }
+                destVC.userEmail = _email.text!
+                
             }
         }
     }

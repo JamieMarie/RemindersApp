@@ -9,12 +9,17 @@
 import UIKit
 import Firebase
 
+
+let BACKGROUND_COLOR = UIColor.init(red:130.0, green:185.0, blue:166.0,
+                                    alpha:1.00) // Blueish
+let FOREGROUND_COLOR = UIColor.init(red: 0.937, green: 0.820,
+                                    blue: 0.576, alpha: 1.0)  // Tannish
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    
-    
+
     override init() {
         FirebaseApp.configure()
     }

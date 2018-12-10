@@ -88,6 +88,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
 //                            let taskListName = d.get("taskListName") as! String
                             let lon = d.get("lon") as! Double
                             let lat = d.get("lat") as! Double
+                            let userName = d.get("userName") as! String
                             
                             // check here if userEmail is in friends
                             if friends.contains(userEmail) && postType == "CompletedTask" && lat != 0 && lon != 0{
@@ -98,7 +99,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
                                 ]
                                 self.spots.append(postLocationData)
                                 let marker = MKPointAnnotation()
-                                marker.title = userEmail + " completed " + taskName
+                                marker.title = userName + " completed " + taskName
                                 marker.coordinate = CLLocationCoordinate2D(latitude: lat as! CLLocationDegrees, longitude: lon as! CLLocationDegrees)
                                 self.mapView.addAnnotation(marker)
                                 

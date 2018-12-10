@@ -15,7 +15,6 @@ class CreateNewListViewController: UIViewController {
     @IBOutlet weak var descriptionField: UITextField!
     @IBOutlet weak var titleField: UITextField!
     
-    var currentUser : User = User(email: "", firstName: "", lastName: "", id: "", taskLists: [], numTaskLists: 0, streakDate: Date.distantFuture, streakNum: 0, friends: [])
     var userEmail : String!
     var docID : String = ""
     var doc: DocumentReference!
@@ -72,7 +71,7 @@ class CreateNewListViewController: UIViewController {
             "taskListID": taskListID
 
         ]
-        taskList = TaskList(active: true, description: descriptionData, fullCompletion: false, name: titleData, userEmail: currentUser.email, tasks: [], numTasks: 0, dateCreated: Date(), taskListID: taskListID)
+        taskList = TaskList(active: true, description: descriptionData, fullCompletion: false, name: titleData, userEmail: userEmail, tasks: [], numTasks: 0, dateCreated: Date(), taskListID: taskListID)
         
         doc.setData(taskListData) { (error) in
             if let error = error {

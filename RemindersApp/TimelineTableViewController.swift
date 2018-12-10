@@ -14,7 +14,7 @@ class TimelineTableViewController: UITableViewController {
     var docID : String = ""
     var posts : [Post] = []
     var userEmail : String = ""
-    var currentPost : Post = Post(content: "", userEmail: "", datePosted: Date(), postType: "", taskListName: "", taskName: "", lat: 0.0, lon: 0.0)
+    var currentPost : Post = Post(content: "", userEmail: "", datePosted: Date(), postType: "", taskListName: "", taskName: "", lat: 0.0, lon: 0.0, userName: "", imageIcon: "")
     let db = Firestore.firestore()
 
     override func viewDidLoad() {
@@ -46,12 +46,14 @@ class TimelineTableViewController: UITableViewController {
         posts = []
         
         var friends : [String] = []
+        var avatar : String = ""
         db.collection("Users").whereField("email", isEqualTo: userEmail).getDocuments() { (querySnap, error) in
             if let error = error {
                 print("Error: \(error)")
             } else {
                 for d in querySnap!.documents {
                     friends = d.get("friends") as! [String]
+                    avatar = d.get("profilePic") as! String
                 }
                 let postCollection = self.db.collection("Posts")
                 
@@ -68,10 +70,11 @@ class TimelineTableViewController: UITableViewController {
                             let taskListName = d.get("taskListName") as! String
                             let lon = d.get("lon") as! Double
                             let lat = d.get("lat") as! Double
+                            let userName = d.get("userName") as! String
                             
                             // check here if userEmail is in friends
                             if friends.contains(userEmail) {
-                                self.currentPost = Post(content: content, userEmail: userEmail, datePosted: datePosted, postType: postType, taskListName: taskListName, taskName: taskName, lat: lat, lon: lon)
+                                self.currentPost = Post(content: content, userEmail: userEmail, datePosted: datePosted, postType: postType, taskListName: taskListName, taskName: taskName, lat: lat, lon: lon, userName: userName, imageIcon: avatar)
                                 self.posts.append(self.currentPost)
                             }
                             
@@ -113,7 +116,8 @@ class TimelineTableViewController: UITableViewController {
 
         // Configure the cell...
         cell.contentLabel.text = self.posts[indexPath.row].content
-        cell.usernameLabel.text = self.posts[indexPath.row].userEmail
+        cell.usernameLabel.text = self.posts[indexPath.row].userName
+        cell.avatarImage.image = UIImage(imageLiteralResourceName: self.posts[indexPath.row].imageIcon)
 
         return cell
     }

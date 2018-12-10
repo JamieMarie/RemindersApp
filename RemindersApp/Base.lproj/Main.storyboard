@@ -180,14 +180,6 @@
                                     </textField>
                                 </subviews>
                             </stackView>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Passwords Do Not Match" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vM6-AF-4cu">
-                                <rect key="frame" x="138" y="549" width="99" height="86"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="19"/>
-                                <color key="textColor" red="1" green="0.018721711901257154" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -201,7 +193,6 @@
                             <constraint firstItem="ax7-nT-h5N" firstAttribute="top" secondItem="Fo6-Rb-hlb" secondAttribute="bottom" constant="8" id="Yfs-QW-Xgb"/>
                             <constraint firstItem="Df1-sz-c4c" firstAttribute="trailing" secondItem="Fo6-Rb-hlb" secondAttribute="trailing" constant="123.5" id="Z38-6M-qkT"/>
                             <constraint firstItem="Df1-sz-c4c" firstAttribute="bottom" secondItem="54w-ps-DSy" secondAttribute="bottom" constant="126" id="d4A-Nu-jUc"/>
-                            <constraint firstItem="Fo6-Rb-hlb" firstAttribute="leading" secondItem="vM6-AF-4cu" secondAttribute="trailing" constant="23" id="dfj-4L-eZL"/>
                             <constraint firstItem="Df1-sz-c4c" firstAttribute="trailing" secondItem="54w-ps-DSy" secondAttribute="trailing" constant="164" id="hhW-oy-tmJ"/>
                             <constraint firstItem="Df1-sz-c4c" firstAttribute="trailing" secondItem="AcT-Ts-ObD" secondAttribute="trailing" constant="95" id="j3t-gF-CJD"/>
                             <constraint firstItem="Df1-sz-c4c" firstAttribute="trailing" secondItem="ax7-nT-h5N" secondAttribute="trailing" constant="127" id="pfm-kY-ZE7"/>
@@ -214,7 +205,6 @@
                         <outlet property="_email" destination="1uK-BB-83L" id="m7t-kV-mxD"/>
                         <outlet property="_password" destination="LyF-aq-kEP" id="1Kz-8X-NCA"/>
                         <outlet property="_passwordVerify" destination="plD-Bs-dUJ" id="PdD-jQ-75A"/>
-                        <outlet property="_passwordWarning" destination="vM6-AF-4cu" id="mJ2-Ff-iri"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5b-iJ-pEO" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -525,7 +515,7 @@
                     <connections>
                         <outlet property="firstNameLabel" destination="pgD-s6-hL5" id="iIa-OK-1JD"/>
                         <outlet property="lastNameLabel" destination="SyA-AU-Xek" id="K4P-oh-SKu"/>
-                        <segue destination="pqD-1F-SZX" kind="unwind" identifier="finishRegistrationSegue" unwindAction="unwindFromSignupWithSegue:" id="BKz-7c-nEE"/>
+                        <segue destination="pqD-1F-SZX" kind="unwind" identifier="finishRegistrationSegue" unwindAction="unwindFromSignupWithSegue:" id="4y2-ic-t4V"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TkU-O1-tsg" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -560,12 +550,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="xuT-Ym-Xqb">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="xuT-Ym-Xqb">
                                 <rect key="frame" x="0.0" y="20" width="375" height="598"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="xuT-Ym-Xqb" firstAttribute="top" secondItem="NgF-WK-ZVw" secondAttribute="top" id="KZl-KB-qGy"/>
+                            <constraint firstItem="xuT-Ym-Xqb" firstAttribute="bottom" secondItem="NgF-WK-ZVw" secondAttribute="bottom" id="Q4w-4o-gNz"/>
+                            <constraint firstItem="xuT-Ym-Xqb" firstAttribute="leading" secondItem="NgF-WK-ZVw" secondAttribute="leading" id="jaD-qs-273"/>
+                            <constraint firstItem="xuT-Ym-Xqb" firstAttribute="trailing" secondItem="NgF-WK-ZVw" secondAttribute="trailing" id="jzd-pa-aAD"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="NgF-WK-ZVw"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Item" id="2fl-FY-UFs"/>
@@ -594,22 +589,27 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dBp-gU-1ae">
-                                            <rect key="frame" x="16" y="11" width="275" height="21"/>
+                                            <rect key="frame" x="91" y="11" width="268" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zaG-F1-4zD">
-                                            <rect key="frame" x="16" y="28" width="343" height="67"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cjr-u9-Er0">
+                                            <rect key="frame" x="16" y="11" width="73" height="72"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zaG-F1-4zD">
+                                            <rect key="frame" x="97" y="30" width="262" height="53"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="15"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="avatarImage" destination="cjr-u9-Er0" id="TGB-S2-gkV"/>
                                     <outlet property="contentLabel" destination="zaG-F1-4zD" id="KQ7-jl-tgn"/>
                                     <outlet property="usernameLabel" destination="dBp-gU-1ae" id="8ML-fw-LqL"/>
                                 </connections>
@@ -631,7 +631,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MiK-Lm-N87" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="94" y="-234"/>
+            <point key="canvasLocation" x="93.599999999999994" y="-234.33283358320841"/>
         </scene>
         <!--Add Friend View Controller-->
         <scene sceneID="UDr-aW-5b5">

@@ -29,6 +29,8 @@ class MainScreenViewController: UIViewController, UITableViewDataSource, UITable
     let locationManager = CLLocationManager()
     var lat : Double = 0.0
     var lon : Double = 0.0
+    var fName : String = ""
+    var lName: String = ""
     let qAPI = FavQService.getInstance()
 
     var dailyTask : Task = Task(completed: false, deleted: false, description: "", priority: "", title: "", dateCreated: Date(), expectedCompletion: Date(), actualCompletion: Date(), ownedBy: "", taskList: "", taskListID: 0, taskID: 0)
@@ -42,6 +44,8 @@ class MainScreenViewController: UIViewController, UITableViewDataSource, UITable
         super.viewDidLoad()
         tableView.dataSource = self
         tableView.delegate = self
+        
+        getCurrentUser()
         
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
@@ -72,6 +76,22 @@ class MainScreenViewController: UIViewController, UITableViewDataSource, UITable
             }
         }
         
+    }
+    
+    func getCurrentUser() {
+        db.collection("Users").whereField("email", isEqualTo: userEmail).getDocuments() { querySnap, error in
+            if let error = error {
+                print("error finding user")
+            } else {
+                for d in querySnap!.documents {
+                    self.fName = d.get("firstName") as! String
+                    self.lName = d.get("lastName") as! String
+                    
+                    
+                }
+            }
+            
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -205,7 +225,9 @@ class MainScreenViewController: UIViewController, UITableViewDataSource, UITable
                 "taskName" : name,
                 "taskListName" : taskList,
                 "lat" : self.lat,
-                "lon" : self.lon
+                "lon" : self.lon,
+                "userName" : self.fName + " " + self.lName
+
             ]
 
             postDoc.setData(postData) { (error) in
