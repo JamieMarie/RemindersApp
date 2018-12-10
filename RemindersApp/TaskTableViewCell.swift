@@ -10,6 +10,7 @@ import UIKit
 
 class TaskTableViewCell: UITableViewCell {
     
+    @IBOutlet weak var estimatedCompletionLabel: UILabel!
     @IBOutlet weak var taskTitle: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()

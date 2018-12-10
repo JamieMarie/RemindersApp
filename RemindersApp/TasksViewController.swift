@@ -24,6 +24,7 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
     var lon : Double = 0.0
     var lName : String = ""
     var fName : String = ""
+    var avatar : String = ""
 
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
@@ -76,6 +77,7 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
                 for d in querySnap!.documents {
                     self.fName = d.get("firstName") as! String
                     self.lName = d.get("lastName") as! String
+                    self.avatar = d.get("profilePic") as! String
                     
                     
                 }
@@ -94,7 +96,15 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
         let cell = tableView.dequeueReusableCell(withIdentifier: "taskCell", for: indexPath) as! TaskTableViewCell
         print("entered")
         cell.taskTitle.text = self.tasks[indexPath.row].title
-        print(tasks[indexPath.row].title)
+        
+        let dateFormatter1 = DateFormatter()
+        let dateFormatter2 = DateFormatter()
+        dateFormatter1.dateFormat = "MM-dd-yyyy"
+        dateFormatter2.dateFormat = "HH:mm:ss"
+        let myDate = dateFormatter1.string(from: self.tasks[indexPath.row].expectedCompletion)
+        let myTime = dateFormatter2.string(from: self.tasks[indexPath.row].expectedCompletion)
+
+        cell.estimatedCompletionLabel.text = "Due: " +  myDate + " at " + myTime
         
         return cell
     }
@@ -149,14 +159,21 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
                 }
             }
             
+            
+            
             // upon completion we need to create a new post
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "MM-dd-yyyy HH:mm:ss"
-            let myDate = dateFormatter.string(from: Date())
-           
+
+            
+            let dateFormatter1 = DateFormatter()
+            let dateFormatter2 = DateFormatter()
+            dateFormatter1.dateFormat = "MM-dd-yyyy"
+            dateFormatter2.dateFormat = "HH:mm:ss"
+            let myDate = dateFormatter1.string(from: Date())
+            let myTime = dateFormatter2.string(from: Date())
+            
             let postDoc = self.db.collection("Posts").document()
             let postData : [String : Any] = [
-               "content" : "Completed \(name) on \(myDate)",
+               "content" : "Completed \(name) on \(myDate) at \(myTime)",
                 "userEmail" : self.myTaskList.userEmail,
                 "datePosted" : Date(),
                 "postType" : "CompletedTask",
@@ -164,7 +181,8 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
                 "taskListName" : self.myTaskList.name,
                 "lat" : self.lat,
                 "lon" : self.lon,
-                "userName" : self.fName + " " + self.lName
+                "userName" : self.fName + " " + self.lName,
+                "iconImage" : self.avatar
                 
             ]
             
@@ -185,6 +203,10 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
         complete.backgroundColor = .green
         return UISwipeActionsConfiguration(actions: [complete])
 
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60
     }
     
     func createStreakPost() {

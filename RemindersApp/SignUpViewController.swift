@@ -13,10 +13,9 @@ import Firebase
 import FirebaseFirestore
 
 class SignUpViewController: UIViewController {
-    @IBOutlet var _email: UITextField!
-    @IBOutlet var _password: UITextField!
+    @IBOutlet weak var _password: UITextField!
+    @IBOutlet weak var _email: UITextField!
     @IBOutlet var _passwordVerify: UITextField!
-    @IBOutlet var _passwordWarning: UILabel!
     //var ref: Database!
     let db = Firestore.firestore()
 //    var ref: DocumentReference? = nil
@@ -42,7 +41,6 @@ class SignUpViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        _passwordWarning.isHidden = true
         let detectTouch = UITapGestureRecognizer(target: self, action:
             #selector(self.dismissKeyboard))
         self.view.addGestureRecognizer(detectTouch)
@@ -128,7 +126,6 @@ class SignUpViewController: UIViewController {
                 
             } else if _password.text != _passwordVerify.text {
                 // Look into implementing this for when content does not pass criteria: https://stackoverflow.com/questions/28883050/swift-prepareforsegue-cancel
-                _passwordWarning.isHidden = false
                 let alert = UIAlertController(title: "Failed", message: "Password doesn't match", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 self.present(alert, animated: true, completion: nil)

@@ -18,6 +18,10 @@ var ref: Database!
 
 class MainScreenViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate{
     
+    
+    @IBOutlet weak var authorLabel: UILabel!
+    @IBOutlet weak var quoteLabel: UILabel!
+    
     // initalize our database
     lazy var db = Firestore.firestore()
     var doc: DocumentReference!
@@ -31,6 +35,7 @@ class MainScreenViewController: UIViewController, UITableViewDataSource, UITable
     var lon : Double = 0.0
     var fName : String = ""
     var lName: String = ""
+    var avatar : String = ""
     let qAPI = FavQService.getInstance()
 
     var dailyTask : Task = Task(completed: false, deleted: false, description: "", priority: "", title: "", dateCreated: Date(), expectedCompletion: Date(), actualCompletion: Date(), ownedBy: "", taskList: "", taskListID: 0, taskID: 0)
@@ -41,11 +46,12 @@ class MainScreenViewController: UIViewController, UITableViewDataSource, UITable
         self.locationManager.requestAlwaysAuthorization()
         self.locationManager.requestWhenInUseAuthorization()
         
+        self.view.backgroundColor = BACKGROUND_COLOR
+        
         super.viewDidLoad()
         tableView.dataSource = self
         tableView.delegate = self
         
-        getCurrentUser()
         
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
@@ -69,13 +75,18 @@ class MainScreenViewController: UIViewController, UITableViewDataSource, UITable
             if let q = quote {
                 DispatchQueue.main.async {
                     print()
-                    print("somehow entered")
                     print(q.author)
                     print(q.quote)
+                    self.quoteLabel.text! = q.quote
+                    self.authorLabel.text! = q.author
                 }
             }
         }
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        getCurrentUser()
     }
     
     func getCurrentUser() {
@@ -86,6 +97,7 @@ class MainScreenViewController: UIViewController, UITableViewDataSource, UITable
                 for d in querySnap!.documents {
                     self.fName = d.get("firstName") as! String
                     self.lName = d.get("lastName") as! String
+                    self.avatar = d.get("profilePic") as! String
                     
                     
                 }
@@ -226,7 +238,8 @@ class MainScreenViewController: UIViewController, UITableViewDataSource, UITable
                 "taskListName" : taskList,
                 "lat" : self.lat,
                 "lon" : self.lon,
-                "userName" : self.fName + " " + self.lName
+                "userName" : self.fName + " " + self.lName,
+                "iconImage" : self.avatar
 
             ]
 
@@ -319,7 +332,8 @@ class MainScreenViewController: UIViewController, UITableViewDataSource, UITable
                 //print(completedCount)
                 //print(totalCount)
                 //print(completedCount/totalCount * 100)
-                self.taskCompletion.text = "\(final)%"
+                var finalString = String(format: "%.0f", final)
+                self.taskCompletion.text = finalString + "%"
                 
             }
             

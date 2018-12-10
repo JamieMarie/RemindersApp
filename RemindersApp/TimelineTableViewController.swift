@@ -44,6 +44,8 @@ class TimelineTableViewController: UITableViewController {
     
     func getPosts() {
         posts = []
+       // avatar = d.get("profilePic") as! String
+
         
         var friends : [String] = []
         var avatar : String = ""
@@ -53,7 +55,6 @@ class TimelineTableViewController: UITableViewController {
             } else {
                 for d in querySnap!.documents {
                     friends = d.get("friends") as! [String]
-                    avatar = d.get("profilePic") as! String
                 }
                 let postCollection = self.db.collection("Posts")
                 
@@ -71,10 +72,12 @@ class TimelineTableViewController: UITableViewController {
                             let lon = d.get("lon") as! Double
                             let lat = d.get("lat") as! Double
                             let userName = d.get("userName") as! String
+                            let iconImage = d.get("iconImage") as! String
+                            
                             
                             // check here if userEmail is in friends
                             if friends.contains(userEmail) {
-                                self.currentPost = Post(content: content, userEmail: userEmail, datePosted: datePosted, postType: postType, taskListName: taskListName, taskName: taskName, lat: lat, lon: lon, userName: userName, imageIcon: avatar)
+                                self.currentPost = Post(content: content, userEmail: userEmail, datePosted: datePosted, postType: postType, taskListName: taskListName, taskName: taskName, lat: lat, lon: lon, userName: userName, imageIcon: iconImage)
                                 self.posts.append(self.currentPost)
                             }
                             

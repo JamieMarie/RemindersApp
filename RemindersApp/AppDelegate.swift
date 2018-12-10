@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 
 
-let BACKGROUND_COLOR = UIColor.init(red:130.0, green:185.0, blue:166.0,
+let BACKGROUND_COLOR = UIColor.init(red:0.64, green:0.80, blue:0.74,
                                     alpha:1.00) // Blueish
 let FOREGROUND_COLOR = UIColor.init(red: 0.937, green: 0.820,
                                     blue: 0.576, alpha: 1.0)  // Tannish
