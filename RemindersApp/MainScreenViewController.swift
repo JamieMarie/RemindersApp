@@ -78,6 +78,10 @@ class MainScreenViewController: UIViewController, UITableViewDataSource, UITable
                     print(q.author)
                     print(q.quote)
                     self.quoteLabel.text! = q.quote
+                    self.quoteLabel.numberOfLines = 0
+                    self.quoteLabel.lineBreakMode = .byWordWrapping
+                    self.quoteLabel.minimumScaleFactor = 0.5
+                    self.quoteLabel.sizeToFit()
                     self.authorLabel.text! = q.author
                 }
             }
@@ -171,6 +175,7 @@ class MainScreenViewController: UIViewController, UITableViewDataSource, UITable
         print("entered")
         cell.taskTitleLabel.text = self.tasks[indexPath.row].title
         cell.taskListNameLabel.text = self.tasks[indexPath.row].taskList
+        
         print(tasks[indexPath.row].title)
         
         return cell
@@ -185,21 +190,33 @@ class MainScreenViewController: UIViewController, UITableViewDataSource, UITable
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let complete = UIContextualAction(style: .normal, title: "Complete") { action, index, completion in
             // do the stuff
+            var status = ""
+            let calendar = Calendar.current
             let name = self.tasks[indexPath.row].title
             let taskList = self.tasks[indexPath.row].taskList
             let taskID = self.tasks[indexPath.row].taskID
+            if calendar.isDate(Date(), inSameDayAs: self.tasks[indexPath.row].expectedCompletion) {
+                status = "on-time"
+            } else {
+                if (Date() > self.tasks[indexPath.row].expectedCompletion) {
+                    status = "late"
+                } else {
+                    status = "early"
+                }
+            }
             self.tasks.remove(at: indexPath.row)
 
             var myTask = Task(completed: false, deleted: false, description: "", priority: "", title: "", dateCreated: Date(), expectedCompletion: Date(), actualCompletion: Date(), ownedBy: "", taskList: "", taskListID: 0, taskID: 0)
             
-            var status = ""
-            let calendar = Calendar.current
+           
 
             for t in self.tasks {
                 if name == t.title {
                     myTask = t
                 }
             }
+            
+            print("Title: " + myTask.title)
 
             let c = self.db.collection("Tasks")
             c.whereField("ownedBy", isEqualTo: self.userEmail).whereField("taskID", isEqualTo: taskID).whereField("taskList", isEqualTo: taskList).whereField("title", isEqualTo: name).whereField("deleted", isEqualTo: false).getDocuments() { (querySnap, error) in
@@ -219,21 +236,15 @@ class MainScreenViewController: UIViewController, UITableViewDataSource, UITable
                                     print("Error updating: \(error)")
                                 } else {
                                     print("successful update")
-                                    if calendar.isDate(Date(), inSameDayAs: myTask.expectedCompletion) {
-                                        status = "on-time"
-                                    } else {
-                                        if (Date() > myTask.expectedCompletion) {
-                                            status = "late"
-                                        } else {
-                                            status = "early"
-                                        }
-                                    }
+                                    
                                 }
                         }
 
                     }
                 }
             }
+            
+            
 
             // upon completion we need to create a new post
             let dateFormatter = DateFormatter()

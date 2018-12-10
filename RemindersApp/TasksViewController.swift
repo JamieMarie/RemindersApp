@@ -121,13 +121,23 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let complete = UIContextualAction(style: .normal, title: "Complete") { action, index, completion in
             // do the stuff
+            var status = ""
+            let calendar : Calendar = Calendar.current
             let name = self.tasks[indexPath.row].title
             let taskID = self.tasks[indexPath.row].taskID
             let taskListID = self.tasks[indexPath.row].taskID
+            if calendar.isDate(Date(), inSameDayAs: self.tasks[indexPath.row].expectedCompletion) {
+                status = "on-time"
+            } else {
+                if (Date() > self.tasks[indexPath.row].expectedCompletion) {
+                    status = "late"
+                } else {
+                    status = "early"
+                }
+            }
             self.tasks.remove(at: indexPath.row)
             
-            var status = ""
-            let calendar : Calendar = Calendar.current
+            
             
             var myTask = Task(completed: false, deleted: false, description: "", priority: "", title: "", dateCreated: Date(), expectedCompletion: Date(), actualCompletion: Date(), ownedBy: "", taskList: "", taskListID: 0, taskID: 0)
             
@@ -156,16 +166,6 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
                                     print("Error updating: \(error)")
                                 } else {
                                     print("successful update")
-                                    if calendar.isDate(Date(), inSameDayAs: myTask.expectedCompletion) {
-                                        status = "on-time"
-                                    } else {
-                                        if (Date() > myTask.expectedCompletion) {
-                                            status = "late"
-                                        } else {
-                                            status = "early"
-                                        }
-                                    }
-
                                 }
                         }
                         

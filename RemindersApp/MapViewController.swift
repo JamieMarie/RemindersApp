@@ -57,7 +57,11 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         lat = locval.latitude
         let view = MKCoordinateRegionMakeWithDistance((locations.last!.coordinate) , 600, 600)
         self.mapView.setRegion(view, animated: true)
+        self.locationManager.stopUpdatingLocation()
+
     }
+    
+   
     
     func getPosts() {
         //posts = []
