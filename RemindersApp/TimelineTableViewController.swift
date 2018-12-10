@@ -14,8 +14,15 @@ class TimelineTableViewController: UITableViewController {
     var docID : String = ""
     var posts : [Post] = []
     var userEmail : String = ""
-    var currentPost : Post = Post(content: "", userEmail: "", datePosted: Date(), postType: "", taskListName: "", taskName: "", lat: 0.0, lon: 0.0, userName: "", imageIcon: "")
+    var currentPost : Post = Post(content: "", userEmail: "", datePosted: Date(), postType: "", taskListName: "", taskName: "", lat: 0.0, lon: 0.0, userName: "", imageIcon: "", status: "")
     let db = Firestore.firestore()
+    
+    let LATE_COLOR = UIColor.init(red:1.00, green:0.90, blue:0.90,
+                                        alpha:1.00) // Light Pink
+    let EARLY_COLOR = UIColor.init(red:0.69, green:0.88, blue:0.90,
+                                        alpha:1.00) // Blueish
+    let ON_TIME_COLOR = UIColor.init(red:0.90, green:0.90, blue:0.98,
+                                        alpha:1.00) // Light Purple Color
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,11 +80,11 @@ class TimelineTableViewController: UITableViewController {
                             let lat = d.get("lat") as! Double
                             let userName = d.get("userName") as! String
                             let iconImage = d.get("iconImage") as! String
-                            
+                            let status = d.get("status") as! String
                             
                             // check here if userEmail is in friends
                             if friends.contains(userEmail) {
-                                self.currentPost = Post(content: content, userEmail: userEmail, datePosted: datePosted, postType: postType, taskListName: taskListName, taskName: taskName, lat: lat, lon: lon, userName: userName, imageIcon: iconImage)
+                                self.currentPost = Post(content: content, userEmail: userEmail, datePosted: datePosted, postType: postType, taskListName: taskListName, taskName: taskName, lat: lat, lon: lon, userName: userName, imageIcon: iconImage, status: status)
                                 self.posts.append(self.currentPost)
                             }
                             
@@ -121,6 +128,15 @@ class TimelineTableViewController: UITableViewController {
         cell.contentLabel.text = self.posts[indexPath.row].content
         cell.usernameLabel.text = self.posts[indexPath.row].userName
         cell.avatarImage.image = UIImage(imageLiteralResourceName: self.posts[indexPath.row].imageIcon)
+        let status = self.posts[indexPath.row].status
+        if status == "late" {
+            cell.backgroundColor = LATE_COLOR
+        } else if status == "early" {
+            cell.backgroundColor = EARLY_COLOR
+        } else {
+            cell.backgroundColor = ON_TIME_COLOR
+        }
+                
 
         return cell
     }

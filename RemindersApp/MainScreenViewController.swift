@@ -191,6 +191,9 @@ class MainScreenViewController: UIViewController, UITableViewDataSource, UITable
             self.tasks.remove(at: indexPath.row)
 
             var myTask = Task(completed: false, deleted: false, description: "", priority: "", title: "", dateCreated: Date(), expectedCompletion: Date(), actualCompletion: Date(), ownedBy: "", taskList: "", taskListID: 0, taskID: 0)
+            
+            var status = ""
+            let calendar = Calendar.current
 
             for t in self.tasks {
                 if name == t.title {
@@ -216,6 +219,15 @@ class MainScreenViewController: UIViewController, UITableViewDataSource, UITable
                                     print("Error updating: \(error)")
                                 } else {
                                     print("successful update")
+                                    if calendar.isDate(Date(), inSameDayAs: myTask.expectedCompletion) {
+                                        status = "on-time"
+                                    } else {
+                                        if (Date() > myTask.expectedCompletion) {
+                                            status = "late"
+                                        } else {
+                                            status = "early"
+                                        }
+                                    }
                                 }
                         }
 
@@ -239,7 +251,8 @@ class MainScreenViewController: UIViewController, UITableViewDataSource, UITable
                 "lat" : self.lat,
                 "lon" : self.lon,
                 "userName" : self.fName + " " + self.lName,
-                "iconImage" : self.avatar
+                "iconImage" : self.avatar,
+                "status" : status
 
             ]
 

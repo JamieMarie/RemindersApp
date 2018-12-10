@@ -18,8 +18,9 @@ struct Post {
     var lon : Double
     var userName : String
     var imageIcon : String
+    var status : String
     
-    init(content: String, userEmail: String, datePosted: Date, postType: String, taskListName: String, taskName: String, lat : Double, lon : Double, userName: String, imageIcon: String) {
+    init(content: String, userEmail: String, datePosted: Date, postType: String, taskListName: String, taskName: String, lat : Double, lon : Double, userName: String, imageIcon: String, status: String) {
         self.content = content
         self.userEmail = userEmail
         self.datePosted = datePosted
@@ -30,7 +31,7 @@ struct Post {
         self.lon = lon
         self.userName = userName
         self.imageIcon = imageIcon
-        
+        self.status = status
     }
     
 }

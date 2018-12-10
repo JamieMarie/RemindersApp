@@ -126,6 +126,9 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
             let taskListID = self.tasks[indexPath.row].taskID
             self.tasks.remove(at: indexPath.row)
             
+            var status = ""
+            let calendar : Calendar = Calendar.current
+            
             var myTask = Task(completed: false, deleted: false, description: "", priority: "", title: "", dateCreated: Date(), expectedCompletion: Date(), actualCompletion: Date(), ownedBy: "", taskList: "", taskListID: 0, taskID: 0)
             
             for t in self.tasks {
@@ -133,6 +136,7 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
                     myTask = t
                 }
             }
+            
             
             let c = self.db.collection("Tasks")
             c.whereField("ownedBy", isEqualTo: self.myTaskList.userEmail).whereField("taskList", isEqualTo: self.myTaskList.name).whereField("title", isEqualTo: name).whereField("deleted", isEqualTo: false).whereField("taskID", isEqualTo: taskID).getDocuments() { (querySnap, error) in
@@ -152,6 +156,16 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
                                     print("Error updating: \(error)")
                                 } else {
                                     print("successful update")
+                                    if calendar.isDate(Date(), inSameDayAs: myTask.expectedCompletion) {
+                                        status = "on-time"
+                                    } else {
+                                        if (Date() > myTask.expectedCompletion) {
+                                            status = "late"
+                                        } else {
+                                            status = "early"
+                                        }
+                                    }
+
                                 }
                         }
                         
@@ -182,7 +196,8 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
                 "lat" : self.lat,
                 "lon" : self.lon,
                 "userName" : self.fName + " " + self.lName,
-                "iconImage" : self.avatar
+                "iconImage" : self.avatar,
+                "status" : status
                 
             ]
             
@@ -194,7 +209,7 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
                 }
             }
             
-            self.createStreakPost()
+            //self.createStreakPost()
             
             
             tableView.deleteRows(at: [indexPath], with: .automatic)  //includes updating UI so reloading is not necessary
