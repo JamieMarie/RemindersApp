@@ -36,6 +36,7 @@
 		75FFDC9321BCED210089FC88 /* Quote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75FFDC9221BCED210089FC88 /* Quote.swift */; };
 		75FFDC9721BCED540089FC88 /* FavQService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75FFDC9621BCED540089FC88 /* FavQService.swift */; };
 		75FFDC9921BD9FE00089FC88 /* RemindTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75FFDC9821BD9FE00089FC88 /* RemindTabBarController.swift */; };
+		75FFDC9B21BDE3240089FC88 /* CreateUserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75FFDC9A21BDE3240089FC88 /* CreateUserProfileViewController.swift */; };
 		84FCF8D72193E08300D4DEFD /* MainScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FCF8D62193E08300D4DEFD /* MainScreenViewController.swift */; };
 		84FCF8D92193E23600D4DEFD /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FCF8D82193E23600D4DEFD /* SignUpViewController.swift */; };
 		84FCF8DE2193F0C600D4DEFD /* Background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84FCF8DB2193F0C500D4DEFD /* Background.jpg */; };
@@ -100,6 +101,7 @@
 		75FFDC9221BCED210089FC88 /* Quote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quote.swift; sourceTree = "<group>"; };
 		75FFDC9621BCED540089FC88 /* FavQService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavQService.swift; sourceTree = "<group>"; };
 		75FFDC9821BD9FE00089FC88 /* RemindTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindTabBarController.swift; sourceTree = "<group>"; };
+		75FFDC9A21BDE3240089FC88 /* CreateUserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserProfileViewController.swift; sourceTree = "<group>"; };
 		84FCF8D62193E08300D4DEFD /* MainScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenViewController.swift; sourceTree = "<group>"; };
 		84FCF8D82193E23600D4DEFD /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		84FCF8DB2193F0C500D4DEFD /* Background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Background.jpg; sourceTree = "<group>"; };
@@ -216,6 +218,7 @@
 				75FFDC9221BCED210089FC88 /* Quote.swift */,
 				75FFDC9621BCED540089FC88 /* FavQService.swift */,
 				75FFDC9821BD9FE00089FC88 /* RemindTabBarController.swift */,
+				75FFDC9A21BDE3240089FC88 /* CreateUserProfileViewController.swift */,
 			);
 			path = RemindersApp;
 			sourceTree = "<group>";
@@ -506,6 +509,7 @@
 				75FFDC8D21BC97570089FC88 /* AddFriendViewController.swift in Sources */,
 				75FFDC8B21BC89740089FC88 /* TimelineTableViewController.swift in Sources */,
 				754E460721A369F300B0BDF7 /* CreateNewListViewController.swift in Sources */,
+				75FFDC9B21BDE3240089FC88 /* CreateUserProfileViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

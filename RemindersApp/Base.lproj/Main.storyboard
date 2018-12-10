@@ -145,6 +145,7 @@
                                 <connections>
                                     <action selector="LoginButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aTq-S3-OXo"/>
                                     <action selector="RegisterUser:" destination="T6y-Qp-noH" eventType="touchUpInside" id="gxB-k7-QPC"/>
+                                    <segue destination="JZd-6G-LEH" kind="show" identifier="createUserSegue" id="3CJ-YD-f1J"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="54w-ps-DSy">
@@ -214,11 +215,9 @@
                         <outlet property="_password" destination="LyF-aq-kEP" id="1Kz-8X-NCA"/>
                         <outlet property="_passwordVerify" destination="plD-Bs-dUJ" id="PdD-jQ-75A"/>
                         <outlet property="_passwordWarning" destination="vM6-AF-4cu" id="mJ2-Ff-iri"/>
-                        <segue destination="bTM-Hs-XG2" kind="unwind" identifier="finishRegistrationSegue" unwindAction="unwindFromSignupWithSegue:" id="L32-sk-Iuw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5b-iJ-pEO" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="bTM-Hs-XG2" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-1844" y="-1149"/>
         </scene>
@@ -489,40 +488,50 @@
             </objects>
             <point key="canvasLocation" x="3936.8000000000002" y="-1191.4542728635683"/>
         </scene>
-        <!--View Controller-->
+        <!--Create User Profile View Controller-->
         <scene sceneID="9oD-3b-Lnb">
             <objects>
-                <viewController id="JZd-6G-LEH" sceneMemberID="viewController">
+                <viewController id="JZd-6G-LEH" customClass="CreateUserProfileViewController" customModule="RemindersApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="bdf-7f-xJz">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pgD-s6-hL5">
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pgD-s6-hL5">
                                 <rect key="frame" x="87" y="87" width="200" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SyA-AU-Xek">
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Last Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SyA-AU-Xek">
                                 <rect key="frame" x="87" y="143" width="200" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dnh-Mw-sfJ">
-                                <rect key="frame" x="67" y="196" width="240" height="128"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Shy-yO-ZaM">
+                                <rect key="frame" x="135" y="203" width="104" height="38"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
+                                <state key="normal" title="Update User"/>
+                                <connections>
+                                    <action selector="updateUserPressed:" destination="JZd-6G-LEH" eventType="touchUpInside" id="ze3-mK-2Hm"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="hBb-JH-P7G"/>
                     </view>
+                    <connections>
+                        <outlet property="firstNameLabel" destination="pgD-s6-hL5" id="iIa-OK-1JD"/>
+                        <outlet property="lastNameLabel" destination="SyA-AU-Xek" id="K4P-oh-SKu"/>
+                        <segue destination="pqD-1F-SZX" kind="unwind" identifier="finishRegistrationSegue" unwindAction="unwindFromSignupWithSegue:" id="BKz-7c-nEE"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TkU-O1-tsg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="pqD-1F-SZX" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-884" y="-1149.1754122938532"/>
+            <point key="canvasLocation" x="-926" y="-1149"/>
         </scene>
         <!--Item 2-->
         <scene sceneID="cMF-1t-mmp">
@@ -541,7 +550,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3iA-wS-Oyr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1386" y="-189"/>
+            <point key="canvasLocation" x="-1082" y="-234"/>
         </scene>
         <!--Item-->
         <scene sceneID="5aH-RU-Kpo">
@@ -622,7 +631,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MiK-Lm-N87" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2480.8000000000002" y="-170.46476761619192"/>
+            <point key="canvasLocation" x="94" y="-234"/>
         </scene>
         <!--Add Friend View Controller-->
         <scene sceneID="UDr-aW-5b5">
@@ -657,7 +666,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FEh-pM-6uw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3612" y="-174.06296851574214"/>
+            <point key="canvasLocation" x="1038" y="-234"/>
         </scene>
         <!--All Lists-->
         <scene sceneID="JH8-ue-8Iv">

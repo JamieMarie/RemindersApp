@@ -112,7 +112,7 @@ class SignUpViewController: UIViewController {
                                     print("Data was saved")
                                     print("\n")
                                     registerSuccess = true
-                                    self.performSegue(withIdentifier: "finishRegistrationSegue", sender: self)
+                                    self.performSegue(withIdentifier: "createUserSegue", sender: self)
                                     //self.dismiss(animated:true, completion: nil)
 
 
@@ -137,7 +137,7 @@ class SignUpViewController: UIViewController {
         }
         if registerSuccess == true {
 
-//            self.performSegue(withIdentifier: "finishRegistrationSegue", sender: self)
+           self.performSegue(withIdentifier: "finishRegistrationSegue", sender: self)
         }
     }
     
