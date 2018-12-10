@@ -18,8 +18,9 @@ struct TaskList {
     var numTasks: Int
     var dateCreated: Date
     var taskListID: Int
+    var color: String
     
-    init(active: Bool, description: String, fullCompletion: Bool, name: String, userEmail: String, tasks: Array<Task>, numTasks: Int, dateCreated: Date, taskListID: Int) {
+    init(active: Bool, description: String, fullCompletion: Bool, name: String, userEmail: String, tasks: Array<Task>, numTasks: Int, dateCreated: Date, taskListID: Int, color: String) {
         self.active = active
         self.description = description
         self.fullCompletion = fullCompletion
@@ -29,5 +30,6 @@ struct TaskList {
         self.numTasks = numTasks
         self.dateCreated = dateCreated
         self.taskListID = taskListID
+        self.color = color
     }
 }

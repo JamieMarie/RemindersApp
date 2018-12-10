@@ -17,7 +17,7 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
     @IBOutlet weak var navBarTitle: UINavigationItem!
     var tasks : [Task] = []
     var taskdID : String = ""
-    var myTaskList : TaskList = TaskList(active: true, description: "", fullCompletion: false, name: "", userEmail: "", tasks: [], numTasks: 0, dateCreated: Date(), taskListID: 0)
+    var myTaskList : TaskList = TaskList(active: true, description: "", fullCompletion: false, name: "", userEmail: "", tasks: [], numTasks: 0, dateCreated: Date(), taskListID: 0, color: "")
     var task : Task = Task(completed: false, deleted: false, description: "", priority: "", title: "", dateCreated: Date(), expectedCompletion: Date(), actualCompletion: Date(), ownedBy: "", taskList: "", taskListID: 0, taskID: 0)
     let locationManager = CLLocationManager()
     var lat : Double = 0.0

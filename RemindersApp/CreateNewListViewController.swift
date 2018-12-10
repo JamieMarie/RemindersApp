@@ -18,7 +18,8 @@ class CreateNewListViewController: UIViewController {
     var userEmail : String!
     var docID : String = ""
     var doc: DocumentReference!
-    var taskList : TaskList = TaskList(active: false, description: "", fullCompletion: false, name: "", userEmail: "", tasks: [], numTasks: 0, dateCreated: Date(), taskListID: 0)
+    var color : String  =  ""
+    var taskList : TaskList = TaskList(active: false, description: "", fullCompletion: false, name: "", userEmail: "", tasks: [], numTasks: 0, dateCreated: Date(), taskListID: 0, color: "")
 
     let db = Firestore.firestore()
 
@@ -68,10 +69,11 @@ class CreateNewListViewController: UIViewController {
             "tasks": [],
             "numTasks": 0,
             "dateCreated": Date(),
-            "taskListID": taskListID
+            "taskListID": taskListID,
+            "color" : self.color
 
         ]
-        taskList = TaskList(active: true, description: descriptionData, fullCompletion: false, name: titleData, userEmail: userEmail, tasks: [], numTasks: 0, dateCreated: Date(), taskListID: taskListID)
+        taskList = TaskList(active: true, description: descriptionData, fullCompletion: false, name: titleData, userEmail: userEmail, tasks: [], numTasks: 0, dateCreated: Date(), taskListID: taskListID, color: self.color)
         
         doc.setData(taskListData) { (error) in
             if let error = error {

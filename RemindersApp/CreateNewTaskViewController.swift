@@ -15,7 +15,7 @@ class CreateNewTaskViewController: UIViewController {
     @IBOutlet weak var titleField: UITextField!
     @IBOutlet weak var expectedCompletionLabel: UILabel!
     @IBOutlet weak var completionDatePicker: UIDatePicker!
-    var currentTaskList : TaskList = TaskList(active: false, description: "", fullCompletion: false, name: "", userEmail: "", tasks: [], numTasks: 0, dateCreated: Date(), taskListID: 0)
+    var currentTaskList : TaskList = TaskList(active: false, description: "", fullCompletion: false, name: "", userEmail: "", tasks: [], numTasks: 0, dateCreated: Date(), taskListID: 0, color: "")
     var newTask : Task = Task(completed: false, deleted: false, description: "", priority: "", title: "", dateCreated: Date.distantFuture, expectedCompletion: Date.distantFuture, actualCompletion: Date.distantFuture, ownedBy: "",taskList: "", taskListID: 0, taskID: 0)
     var toComplete: Date = Date()
     var dateFormatter : DateFormatter = DateFormatter()
