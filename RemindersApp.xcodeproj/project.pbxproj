@@ -23,7 +23,6 @@
 		754E460521A21CFF00B0BDF7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 84FF7D2A2193617600AFCD0D /* GoogleService-Info.plist */; };
 		754E460721A369F300B0BDF7 /* CreateNewListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754E460621A369F300B0BDF7 /* CreateNewListViewController.swift */; };
 		75C78C8221BA0ED300FC2AFF /* ReminderListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C78C8121BA0ED300FC2AFF /* ReminderListTableViewController.swift */; };
-		75C78C8321BA2B1100FC2AFF /* ReminderListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C78C8121BA0ED300FC2AFF /* ReminderListTableViewController.swift */; };
 		75C78C8521BA2E9700FC2AFF /* ReminderListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C78C8421BA2E9700FC2AFF /* ReminderListTableViewCell.swift */; };
 		75FFDC8321BB78660089FC88 /* TasksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75FFDC8221BB78660089FC88 /* TasksViewController.swift */; };
 		75FFDC8521BB8D8F0089FC88 /* TaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75FFDC8421BB8D8F0089FC88 /* TaskTableViewCell.swift */; };
@@ -518,7 +517,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				751DE0F92180B3850051817D /* RemindersAppTests.swift in Sources */,
-				75C78C8321BA2B1100FC2AFF /* ReminderListTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
