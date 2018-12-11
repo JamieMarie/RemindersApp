@@ -128,7 +128,11 @@ class TimelineTableViewController: UITableViewController {
         // Configure the cell...
         cell.contentLabel.text = self.posts[indexPath.row].content
         cell.usernameLabel.text = self.posts[indexPath.row].userName
-        cell.avatarImage.image = UIImage(imageLiteralResourceName: self.posts[indexPath.row].imageIcon)
+        var imageName = self.posts[indexPath.row].imageIcon
+        if  (imageName == "")  {
+            imageName = "Avatar1"
+        }
+        cell.avatarImage.image = UIImage(imageLiteralResourceName:imageName)
         let status = self.posts[indexPath.row].status
         if status == "late" {
             cell.backgroundColor = LATE_COLOR
