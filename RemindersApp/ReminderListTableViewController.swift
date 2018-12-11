@@ -23,6 +23,7 @@ class ReminderListTableViewController: UITableViewController {
     
 
     override func viewDidLoad() {
+        self.view.backgroundColor = BACKGROUND_COLOR
         super.viewDidLoad()
         let user = Auth.auth().currentUser
         userEmail = user!.email!

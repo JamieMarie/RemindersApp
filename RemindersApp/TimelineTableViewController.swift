@@ -25,6 +25,7 @@ class TimelineTableViewController: UITableViewController {
                                         alpha:1.00) // Light Purple Color
 
     override func viewDidLoad() {
+        self.view.backgroundColor = BACKGROUND_COLOR
         super.viewDidLoad()
         print("Opened")
         let user = Auth.auth().currentUser

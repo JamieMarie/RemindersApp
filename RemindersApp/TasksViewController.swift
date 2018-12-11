@@ -31,10 +31,9 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
     let db = Firestore.firestore()
 
     override func viewDidLoad() {
+        self.view.backgroundColor = BACKGROUND_COLOR
         super.viewDidLoad()
         getCurrentUser()
-        
-        self.view.backgroundColor = BACKGROUND_COLOR
         
         self.locationManager.requestAlwaysAuthorization()
         self.locationManager.requestWhenInUseAuthorization()

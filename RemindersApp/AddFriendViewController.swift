@@ -17,12 +17,15 @@ class AddFriendViewController: UIViewController {
     let db = Firestore.firestore()
     
     override func viewDidLoad() {
+        self.view.backgroundColor = BACKGROUND_COLOR
         super.viewDidLoad()
         userEmail = Auth.auth().currentUser!.email!
         print("EMAIL: " + userEmail)
         let detectTouch = UITapGestureRecognizer(target: self, action:
             #selector(self.dismissKeyboard))
         self.view.addGestureRecognizer(detectTouch)
+        
+        self.view.backgroundColor = BACKGROUND_COLOR
 
         // Do any additional setup after loading the view.
     }

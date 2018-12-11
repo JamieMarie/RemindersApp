@@ -13,6 +13,7 @@ import FirebaseFirestore
 class RemindTabBarController: UITabBarController {
 
     override func viewDidLoad() {
+        self.view.backgroundColor = BACKGROUND_COLOR
         super.viewDidLoad()
         
         Auth.auth().addStateDidChangeListener { auth, user in

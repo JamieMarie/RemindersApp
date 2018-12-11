@@ -24,6 +24,7 @@ class CreateNewListViewController: UIViewController {
     let db = Firestore.firestore()
 
     override func viewDidLoad() {
+        self.view.backgroundColor = BACKGROUND_COLOR
         super.viewDidLoad()
         userEmail = Auth.auth().currentUser!.email!
         queryCurrentUser()

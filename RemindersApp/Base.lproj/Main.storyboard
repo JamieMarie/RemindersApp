@@ -234,7 +234,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="rhc-In-TSu">
-                                <rect key="frame" x="0.0" y="225" width="375" height="393"/>
+                                <rect key="frame" x="0.0" y="230" width="375" height="388"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="statCell" rowHeight="63" id="7tm-EY-IvF" customClass="StatTableViewCell" customModule="RemindersApp" customModuleProvider="target">
@@ -268,29 +268,29 @@
                                 </prototypes>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Fq-wW-fdo">
-                                <rect key="frame" x="219" y="170" width="51" height="21"/>
+                                <rect key="frame" x="219" y="175" width="51" height="21"/>
                                 <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="18"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Quote" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7U8-PH-zeq">
-                                <rect key="frame" x="63" y="64" width="270" height="66"/>
+                                <rect key="frame" x="63" y="66" width="270" height="66"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="66" id="kXk-w2-lTK"/>
                                     <constraint firstAttribute="width" constant="270" id="mw8-Qz-y0M"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="Kefa-Regular" family="Kefa" pointSize="14"/>
+                                <fontDescription key="fontDescription" name="Noteworthy-Light" family="Noteworthy" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Author" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l0p-ud-R3V">
-                                <rect key="frame" x="211" y="132" width="122" height="15.5"/>
-                                <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
+                                <rect key="frame" x="211" y="134" width="122" height="18.5"/>
+                                <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Daily Completion:" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2T6-6n-Z8G">
-                                <rect key="frame" x="77" y="169" width="136.5" height="29"/>
+                                <rect key="frame" x="77" y="171" width="136.5" height="32"/>
                                 <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -306,7 +306,7 @@
                             <constraint firstItem="2T6-6n-Z8G" firstAttribute="top" secondItem="7U8-PH-zeq" secondAttribute="bottom" constant="39" id="HiL-oz-tah"/>
                             <constraint firstItem="4Fq-wW-fdo" firstAttribute="top" secondItem="l0p-ud-R3V" secondAttribute="bottom" constant="22.5" id="IJ7-ga-Oxs"/>
                             <constraint firstItem="rhc-In-TSu" firstAttribute="top" secondItem="2T6-6n-Z8G" secondAttribute="bottom" constant="27" id="Iwk-fr-vGz"/>
-                            <constraint firstItem="7U8-PH-zeq" firstAttribute="top" secondItem="7Ys-Wp-qoQ" secondAttribute="top" id="Kmw-C1-59Q"/>
+                            <constraint firstItem="7U8-PH-zeq" firstAttribute="top" secondItem="7Ys-Wp-qoQ" secondAttribute="top" constant="2" id="Kmw-C1-59Q"/>
                             <constraint firstItem="l0p-ud-R3V" firstAttribute="top" secondItem="7U8-PH-zeq" secondAttribute="bottom" constant="2" id="OmP-sG-wDw"/>
                             <constraint firstItem="4Fq-wW-fdo" firstAttribute="top" secondItem="l0p-ud-R3V" secondAttribute="bottom" constant="22.5" id="YDO-pS-pet"/>
                             <constraint firstItem="l0p-ud-R3V" firstAttribute="leading" secondItem="7Ys-Wp-qoQ" secondAttribute="leading" constant="211" id="Zeq-QT-XR3"/>
@@ -858,9 +858,9 @@
     </scenes>
     <resources>
         <image name="Mind" width="200" height="165"/>
-        <image name="icons8-home-page-25" width="18.75" height="18.75"/>
-        <image name="icons8-marker-25" width="18.75" height="18.75"/>
-        <image name="icons8-to-do-25" width="18.75" height="18.75"/>
-        <image name="icons8-user-groups-25" width="18.75" height="18.75"/>
+        <image name="icons8-home-page-25" width="25" height="25"/>
+        <image name="icons8-marker-25" width="25" height="25"/>
+        <image name="icons8-to-do-25" width="25" height="25"/>
+        <image name="icons8-user-groups-25" width="25" height="25"/>
     </resources>
 </document>

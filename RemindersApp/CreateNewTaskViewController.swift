@@ -2,7 +2,7 @@
 //  CreateNewTaskViewController.swift
 //  RemindersApp
 //
-//  Created by Kaylin Zaroukian on 11/28/18.
+//  Created by Kaylin Zaroukian and Jamie Penzien
 //  Copyright © 2018 CIS 347. All rights reserved.
 //
 
@@ -26,6 +26,7 @@ class CreateNewTaskViewController: UIViewController {
     var docID : String = ""
     
     override func viewDidLoad() {
+        self.view.backgroundColor = BACKGROUND_COLOR
         super.viewDidLoad()
         userEmail = Auth.auth().currentUser!.email!
         queryCurrentList()

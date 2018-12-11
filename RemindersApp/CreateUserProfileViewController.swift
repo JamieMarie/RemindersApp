@@ -29,6 +29,7 @@ class CreateUserProfileViewController: UIViewController{
             let user = Auth.auth().currentUser;
             userEmail = user!.email!
             print("User email:" + user!.email!)
+            
         
             
         } else {
@@ -44,6 +45,7 @@ class CreateUserProfileViewController: UIViewController{
             let user = Auth.auth().currentUser;
             userEmail = user!.email!
             print("User email:" + user!.email!)
+            
             
             
         } else {

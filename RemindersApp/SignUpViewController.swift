@@ -55,6 +55,7 @@ class SignUpViewController: UIViewController {
     }
     
     override func viewDidLoad() {
+        self.view.backgroundColor = BACKGROUND_COLOR
         super.viewDidLoad()
         let detectTouch = UITapGestureRecognizer(target: self, action:
             #selector(self.dismissKeyboard))

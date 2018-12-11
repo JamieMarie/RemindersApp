@@ -2,7 +2,7 @@
 //  MapViewController.swift
 //  RemindersApp
 //
-//  Created by Kaylin Zaroukian on 12/8/18.
+//  Created by Kaylin Zaroukian and Jamie Penzien
 //  Copyright © 2018 CIS 347. All rights reserved.
 //
 
@@ -24,6 +24,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     
 
     override func viewDidLoad() {
+        self.view.backgroundColor = BACKGROUND_COLOR
         userEmail = Auth.auth().currentUser!.email!
         super.viewDidLoad()
         self.locationManager.requestAlwaysAuthorization()
