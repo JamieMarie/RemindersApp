@@ -12,7 +12,7 @@ import Firebase
 
 class ReminderListTableViewController: UITableViewController {
     
-    var taskLists: [TaskList] = []
+    var taskLists : [TaskList]  = []
     var dID : String = ""
     var taskdID : String = ""
     var userEmail : String = ""
