@@ -140,7 +140,7 @@ class ReminderListTableViewController: UITableViewController {
             
             let listCollection = db.collection("TaskLists")
             
-            listCollection.whereField("userEmail", isEqualTo: self.userEmail).whereField("name", isEqualTo: name).whereField("active", isEqualTo: true).whereField("tID", isEqualTo: tID).getDocuments() { (querySnap, error) in
+            listCollection.whereField("userEmail", isEqualTo: self.userEmail).whereField("name", isEqualTo: name).whereField("active", isEqualTo: true).getDocuments() { (querySnap, error) in
                 if let error = error {
                     print("There was an error getting TaskLists documents: \(error)")
                 } else {
