@@ -279,7 +279,7 @@
                                     <constraint firstAttribute="height" constant="66" id="kXk-w2-lTK"/>
                                     <constraint firstAttribute="width" constant="270" id="mw8-Qz-y0M"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="Noteworthy-Light" family="Noteworthy" pointSize="14"/>
+                                <fontDescription key="fontDescription" name="HoeflerText-Regular" family="Hoefler Text" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -858,9 +858,9 @@
     </scenes>
     <resources>
         <image name="Mind" width="200" height="165"/>
-        <image name="icons8-home-page-25" width="25" height="25"/>
-        <image name="icons8-marker-25" width="25" height="25"/>
-        <image name="icons8-to-do-25" width="25" height="25"/>
-        <image name="icons8-user-groups-25" width="25" height="25"/>
+        <image name="icons8-home-page-25" width="18.75" height="18.75"/>
+        <image name="icons8-marker-25" width="18.75" height="18.75"/>
+        <image name="icons8-to-do-25" width="18.75" height="18.75"/>
+        <image name="icons8-user-groups-25" width="18.75" height="18.75"/>
     </resources>
 </document>
